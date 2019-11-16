@@ -1,0 +1,2 @@
+def load(path):
+    pass
