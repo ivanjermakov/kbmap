@@ -1,2 +1,2 @@
 # kbmap
-Cross-platform keyboard mapping utility
+Linux keyboard mapping utility
