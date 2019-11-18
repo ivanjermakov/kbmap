@@ -10,7 +10,7 @@ def apply(config_path, device_name, uinput_name):
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME using CONFIG_PATH
     configuration.
     """
-    print(f'commands: "{config_path}" "{device_name}" "{uinput_name}"')
+    # print(f'commands: "{config_path}" "{device_name}" "{uinput_name}"')
     import kbmap
     kbmap.apply(config_path, device_name, uinput_name)
 
