@@ -2,7 +2,9 @@ import evdev
 
 
 class Combination:
-    def __init__(self, key, modifiers=[]):
+    def __init__(self, key, modifiers=None):
+        if modifiers is None:
+            modifiers = []
         self.key = key
         self.modifiers = modifiers
 
