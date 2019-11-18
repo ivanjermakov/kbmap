@@ -11,8 +11,17 @@ def _transparent(dev, e):
     dev.write(e.type, e.code, e.value)
 
 
+# TODO
+def _release_keys(dev, keyboard):
+    print('releasing keys')
+    active_keys = keyboard.active_keys()
+    for k in active_keys:
+        dev.write(ecodes.EV_KEY, k, KeyEvent.key_up)
+        keyboard.write(ecodes.EV_KEY, k, KeyEvent.key_up)
+
+
 def _load_mappings(path):
-    spec = iu.spec_from_file_location("config", path)
+    spec = iu.spec_from_file_location('config', path)
     config = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(config)
     return config.mappings
@@ -60,6 +69,3 @@ def apply(config_path, device_name, uinput_name='kbmap'):
                     _transparent(dev, e)
             else:
                 _transparent(dev, e)
-
-
-apply("config.py", 'SINO WEALTH USB KEYBOARD')
