@@ -17,7 +17,7 @@ mappings = Mapping.bind(
         NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO,
         NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO,
         NO, NO, NO, ESC, NO, NO, NO, BACKSPACE, UP, DELETE, NO, NO, NO, NO, NO, NO, NO,
-        NO, NO, NO, NO, NO, NO, LEFT, DOWN, RIGHT, NO, NO, NO, NO,
+        NO, NO, NO, NO, NO, NO, NO, LEFT, DOWN, RIGHT, NO, NO, NO,
         NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO, NO,
         NO, NO, NO, NO, NO, NO, NO, NO, NO, NO,
     ]
