@@ -1,5 +1,7 @@
 from enum import Enum
 
+from combination import Combination
+
 
 class MappingType(Enum):
     copyModifiers = 1
@@ -16,3 +18,23 @@ class Mapping:
 
     def __str__(self):
         return f'{self.source} -> {self.target} ({self.type.name})'
+
+    @classmethod
+    def bind(cls, source_modifiers, source_keys, target_modifiers, target_keys):
+        if len(source_keys) != len(target_keys):
+            raise Exception(f'length of source and target keys does not match: '
+                            f'({len(source_keys)}, {len(target_keys)}'
+                            f')')
+
+        return list(
+            filter(
+                lambda c: c.source.key and c.target.key,
+                map(
+                    lambda i: Mapping(
+                        Combination(source_keys[i], source_modifiers),
+                        Combination(target_keys[i], target_modifiers)
+                    ),
+                    range(len(source_keys))
+                )
+            )
+        )
