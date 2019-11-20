@@ -28,6 +28,13 @@ def _load_mappings(path):
 
 
 def apply(config_path, device_name, uinput_name='kbmap'):
+    """
+    Create virtual device with uinput_name that will remap keyboard events from device with name device_name using
+    config_pth configuration.
+    :param config_path: absolute or relative path to configuration file
+    :param device_name: source device name. This device will be grabbed
+    :param uinput_name: optional uinput device that will be created to write mapped events
+    """
     mappings = _load_mappings(config_path)
 
     devices = [InputDevice(fn) for fn in list_devices()]
