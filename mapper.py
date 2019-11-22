@@ -45,13 +45,6 @@ def _release_keys(device, keyboard):
         keyboard.write(ecodes.EV_KEY, k, KeyEvent.key_up)
 
 
-def _load_mappings(path):
-    spec = iu.spec_from_file_location('config', path)
-    config = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(config)
-    return config.mappings
-
-
 def _listen_key_events(keyboard, event_callback, stop_callback=None):
     for e in keyboard.read_loop():
         if e.type == ecodes.EV_KEY:
@@ -114,7 +107,7 @@ def apply(config_path, device_name, uinput_name='kbmap'):
     :param device_name: source device name. This device will be grabbed
     :param uinput_name: optional uinput device that will be created to write mapped events
     """
-    mappings = _load_mappings(config_path)
+    mappings = load_mappings(config_path)
 
     keyboard = _get_device_by_name(device_name)
     atexit.register(keyboard.ungrab)
@@ -147,7 +140,7 @@ def _test_event_handler(e, mappings, keyboard, callback):
 
 
 def test(config_path, device_name, mapping_callback):
-    mappings = _load_mappings(config_path)
+    mappings = load_mappings(config_path)
 
     keyboard = _get_device_by_name(device_name)
     atexit.register(keyboard.ungrab)
@@ -157,3 +150,10 @@ def test(config_path, device_name, mapping_callback):
         keyboard,
         lambda e: _test_event_handler(e, mappings, keyboard, mapping_callback)
     )
+
+
+def load_mappings(path):
+    spec = iu.spec_from_file_location('config', path)
+    config = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(config)
+    return config.mappings
