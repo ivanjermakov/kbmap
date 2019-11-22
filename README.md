@@ -21,13 +21,13 @@ git clone https://github.com/ivanjermakov/kbmap.git
 
 ### Usage
 ````shell script
-main.py [OPTIONS] CONFIG_PATH DEVICE_NAME
+Usage: kbmap.py map [OPTIONS] CONFIG_PATH DEVICE_NAME
 
   Create virtual device that will remap keyboard events from device with
   name DEVICE_NAME using CONFIG_PATH configuration.
 
 Options:
-  --uinput-name TEXT  Name of the virtual device that will write events
+  --uinput-name TEXT  Name of the virtual device that will write events.
   --help              Show this message and exit.
 ````
 

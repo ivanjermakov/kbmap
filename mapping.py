@@ -41,6 +41,9 @@ class Mapping:
         """
         return f'{self.source} -> {self.target} ({self.type.name})'
 
+    def __repr__(self):
+        return str(self)
+
     @classmethod
     def bind(cls, source_modifiers, source_keys, target_modifiers, target_keys):
         """
