@@ -45,15 +45,16 @@ def _release_keys(device, keyboard):
         keyboard.write(ecodes.EV_KEY, k, KeyEvent.key_up)
 
 
-def _listen_key_events(keyboard, event_callback, stop_callback=None):
+def _listen_key_events(keyboard, event_callback, stoppable=True, stop_callback=None):
     for e in keyboard.read_loop():
         if e.type == ecodes.EV_KEY:
 
             # handle program stop
-            if _is_ctrl_z(e, keyboard):
-                if stop_callback:
-                    stop_callback()
-                return
+            if stoppable:
+                if _is_ctrl_z(e, keyboard):
+                    if stop_callback:
+                        stop_callback()
+                    return
 
             event_callback(e)
 
@@ -114,12 +115,13 @@ def apply(config_path, device_name, uinput_name='kbmap'):
     keyboard.grab()
 
     device = UInput.from_device(keyboard, name=uinput_name)
+    device.repeat()
 
     with device:
         _listen_key_events(
             keyboard,
             lambda e: _handle_event(e, mappings, keyboard, device),
-            lambda: _release_keys(device, keyboard)
+            False
         )
 
 
