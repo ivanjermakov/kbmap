@@ -115,7 +115,6 @@ def apply(config_path, device_name, uinput_name='kbmap'):
     keyboard.grab()
 
     device = UInput.from_device(keyboard, name=uinput_name)
-    device.repeat()
 
     with device:
         _listen_key_events(
