@@ -2,7 +2,7 @@
 
 import click
 
-import mapper
+from mapper import Mapper
 
 
 @click.group()
@@ -19,7 +19,7 @@ def map(config_path, device_name, uinput_name):
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME using CONFIG_PATH
     configuration.
     """
-    mapper.apply(config_path, device_name, uinput_name)
+    Mapper(config_path, device_name).apply()
 
 
 @kbmap.command(short_help='Test mapping matching on device.')
@@ -29,11 +29,7 @@ def test(config_path, device_name):
     """
     Preview config mappings in action on specified device.
     """
-    mapper.test(
-        config_path,
-        device_name,
-        lambda mappings: click.echo(mappings)
-    )
+    Mapper(config_path, device_name).test(lambda mappings: click.echo(mappings))
 
 
 @kbmap.command(short_help='List config mappings.')
@@ -42,7 +38,7 @@ def list(config_path):
     """
     List config mappings.
     """
-    click.echo(mapper.load_mappings(config_path))
+    click.echo(Mapper.load_mappings(config_path))
 
 
 kbmap()
