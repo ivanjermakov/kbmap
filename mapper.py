@@ -12,6 +12,7 @@ class Mapper:
     def __init__(self, config_path, device_name, uinput_name='kbmap'):
         self.config_path = config_path
         self.mappings = self.load_mappings(config_path)
+        self.modifiers = self._get_modifiers()
         self.device_name = device_name
         self.keyboard = self._get_device_by_name(device_name)
         self.device = UInput.from_device(self.keyboard, name=uinput_name)
@@ -47,6 +48,15 @@ class Mapper:
         spec.loader.exec_module(config)
         return config.mappings
 
+    def _get_modifiers(self):
+        flatten = lambda l: [item for sublist in l for item in sublist]
+
+        return list(set(
+            flatten(
+                map(lambda m: m.source.modifiers, self.mappings)
+            )
+        ))
+
     def _get_device_by_name(self, device_name):
         try:
             devices = [InputDevice(fn) for fn in list_devices()]
@@ -54,21 +64,21 @@ class Mapper:
         except IndexError as e:
             raise type(e)('no device with such name')
 
-    def _transparent_write(self, device, e):
-        device.write(e.type, e.code, e.value)
-        device.syn()
+    def _transparent_write(self, e):
+        self.device.write(e.type, e.code, e.value)
+        self.device.syn()
 
-    def _write_with_modifiers(self, e, device, matched_mapping, remapped_code):
+    def _write_with_modifiers(self, e, matched_mapping, remapped_code):
         for m in matched_mapping.target.modifiers:
-            device.write(e.type, m, KeyEvent.key_up)
-        device.write(e.type, remapped_code, e.value)
+            self.device.write(e.type, m, KeyEvent.key_up)
+        self.device.write(e.type, remapped_code, e.value)
         for m in matched_mapping.target.modifiers:
-            device.write(e.type, m, KeyEvent.key_down)
-        device.syn()
+            self.device.write(e.type, m, KeyEvent.key_down)
+        self.device.syn()
 
-    def _syn_write(self, e, device, remapped_code):
-        device.write(e.type, remapped_code, e.value)
-        device.syn()
+    def _write(self, e, remapped_code):
+        self.device.write(e.type, remapped_code, e.value)
+        self.device.syn()
 
     def _is_ctrl_z(self, e, keyboard):
         return e.code == ecodes.KEY_Z and ecodes.KEY_LEFTCTRL in keyboard.active_keys()
@@ -88,8 +98,30 @@ class Mapper:
                         if stop_callback:
                             stop_callback()
                         return
-
                 event_callback(e)
+            else:
+                self._transparent_write(e)
+
+    def _handle_event(self, e):
+        combination = self._get_combination(e, self.keyboard)
+        matched_mappings = self._get_matched_mappings(combination, self.mappings)
+        # if has any matched mappings
+        if matched_mappings:
+            # use first matched mapping
+            matched_mapping = matched_mappings[0]
+            remapped_code = matched_mapping.target.key
+            # key press
+            if e.value == KeyEvent.key_down:
+                self._write_with_modifiers(e, matched_mapping, remapped_code)
+                return
+            # key release
+            if e.value == KeyEvent.key_up:
+                self._write(e, remapped_code)
+                self.device.syn()
+                return
+
+        # write unmatched
+        self._transparent_write(e)
 
     def _get_combination(self, e, keyboard):
         # work only with EV_KEY events
@@ -106,34 +138,11 @@ class Mapper:
             filter(lambda m: m.source.matching(combination), mappings)
         )
 
-    def _handle_event(self, e):
-        # key event
-        if e.type == ecodes.EV_KEY:
-            combination = self._get_combination(e, self.keyboard)
-            matched_mappings = self._get_matched_mappings(combination, self.mappings)
-            # if has any matched mappings
-            if matched_mappings:
-                # use first matched mapping
-                matched_mapping = matched_mappings[0]
-                remapped_code = matched_mapping.target.key
-                # key press
-                if e.value == KeyEvent.key_down:
-                    self._write_with_modifiers(e, self.device, matched_mapping, remapped_code)
-                    return
-                # key release
-                if e.value == KeyEvent.key_up:
-                    self._syn_write(e, self.device, remapped_code)
-                    self.device.syn()
-                    return
-
-        # in case that incoming event is not suitable for mapping
-        self._transparent_write(self.device, e)
-
     def _test_event_handler(self, e, callback):
         # display only KeyEvent.key_down
-        if e.value != KeyEvent.key_down:
-            return
-
+        # if e.value != KeyEvent.key_down:
+        #     return
+        print(KeyEvent(e))
         combination = self._get_combination(e, self.keyboard)
 
         matched_mappings = self._get_matched_mappings(
