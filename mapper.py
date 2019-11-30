@@ -5,6 +5,7 @@ import importlib.util as iu
 from evdev import KeyEvent, ecodes, InputDevice, list_devices, UInput
 
 from combination import Combination
+from mapping import Mapping
 
 
 def _get_device_by_name(device_name):
@@ -129,13 +130,15 @@ def _test_event_handler(e, mappings, keyboard, callback):
     if e.value != KeyEvent.key_down:
         return
 
+    combination = _get_combination(e, keyboard)
+
     matched_mappings = _get_matched_mappings(
-        _get_combination(e, keyboard),
+        combination,
         mappings
     )
 
     if not matched_mappings:
-        return
+        return callback([Mapping(combination, combination)])
 
     callback(matched_mappings)
 
