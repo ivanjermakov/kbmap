@@ -15,7 +15,7 @@ def is_ctrl_z(e, keyboard):
     return e.code == ecodes.KEY_Z and ecodes.KEY_LEFTCTRL in keyboard.active_keys()
 
 
-def listen_key_events(keyboard, event_callback, stoppable=True, stop_callback=None):
+def listen_key_events(keyboard, event_handler, stoppable=True, stop_callback=None):
     for e in keyboard.read_loop():
         if e.type == ecodes.EV_KEY:
 
@@ -26,7 +26,7 @@ def listen_key_events(keyboard, event_callback, stoppable=True, stop_callback=No
                         stop_callback()
                     return
 
-            event_callback(e)
+            event_handler(e)
 
 
 def grab(keyboard):

@@ -1,13 +1,14 @@
 import importlib
 import importlib.util
 
-from evdev import *
+from evdev import ecodes, KeyEvent, UInput
 
 import keyboard
-import keys
 import uinput
 from combination import Combination
 from mapping import Mapping
+
+LAST_MAPPING = None
 
 
 def _get_matched_mappings(combination, mappings):
@@ -17,37 +18,42 @@ def _get_matched_mappings(combination, mappings):
 
 
 def _handle_event(e, mappings, kb, ui):
-    # key event
-    if e.type == ecodes.EV_KEY:
-        combination = Combination.from_event(e, kb)
-        matched_mappings = _get_matched_mappings(combination, mappings)
+    global LAST_MAPPING
 
-        # if has any matched mappings
-        if matched_mappings:
-            # use first matched mapping
-            matched_mapping = matched_mappings[0]
+    # not key event
+    if e.type != ecodes.EV_KEY:
+        # in case that incoming event is not suitable for mapping
+        uinput.transparent_write(ui, e)
+        return
 
-            if not matched_mapping.target.key:
-                return
+    combination = Combination.from_event(e, kb)
+    matched_mappings = _get_matched_mappings(combination, mappings)
 
-            remapped_code = matched_mapping.target.key
-            # key press
-            if e.value == KeyEvent.key_down:
-                uinput.write_press(e, ui, kb, matched_mapping, remapped_code)
-                return
-            # key release
-            if e.value == KeyEvent.key_up:
-                uinput.write_release(e, ui, kb, matched_mapping, remapped_code)
-                return
-        else:
-            # if modifier key was released
-            if e.value == KeyEvent.key_up and e.code == keys.CAPSLOCK:
-                print('release!!!')
-                ui.write(e.type, keys.J, KeyEvent.key_up)
-                ui.syn()
+    # if last recent mapping is no longer mapped
+    if LAST_MAPPING and LAST_MAPPING not in matched_mappings:
+        # release that mapping
+        uinput.write_release(combination, ui, LAST_MAPPING)
+        return
 
-    # in case that incoming event is not suitable for mapping
-    uinput.transparent_write(ui, e)
+    # if has any matched mappings
+    if matched_mappings:
+        # use first matched mapping
+        mapping = matched_mappings[0]
+        LAST_MAPPING = mapping
+
+        if not mapping.target.key:
+            return
+
+        # key press
+        if e.value == KeyEvent.key_down:
+            uinput.write_press(combination, ui, mapping)
+            return
+        # key release
+        if e.value == KeyEvent.key_up:
+            uinput.write_release(combination, ui, mapping)
+            return
+    else:
+        LAST_MAPPING = None
 
 
 def _test_event_handler(e, mappings, kb, callback):
@@ -66,6 +72,13 @@ def _test_event_handler(e, mappings, kb, callback):
         return callback([Mapping(combination, combination)])
 
     callback(matched_mappings)
+
+
+def load_mappings(path):
+    spec = importlib.util.spec_from_file_location('config', path)
+    config = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(config)
+    return config.mappings
 
 
 def apply(config_path, kb_name, ui_name='kbmap'):
@@ -101,10 +114,3 @@ def test(config_path, kb_name, mapping_callback):
         kb,
         lambda e: _test_event_handler(e, mappings, kb, mapping_callback)
     )
-
-
-def load_mappings(path):
-    spec = importlib.util.spec_from_file_location('config', path)
-    config = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(config)
-    return config.mappings
