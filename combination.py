@@ -44,3 +44,6 @@ class Combination:
         :return: true if combinations match, false otherwise
         """
         return self.key == combination.key and all(m in combination.modifiers for m in self.modifiers)
+
+
+DROP = Combination(None)
