@@ -45,5 +45,12 @@ class Combination:
         """
         return self.key == combination.key and all(m in combination.modifiers for m in self.modifiers)
 
+    @staticmethod
+    def from_event(e, keyboard):
+        return Combination(
+            e.code,
+            list(filter(lambda k: k != e.code, keyboard.active_keys()))
+        )
+
 
 DROP = Combination(None)
