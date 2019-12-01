@@ -1,7 +1,7 @@
 import importlib
 import importlib.util
 
-from evdev import ecodes, KeyEvent, UInput
+from evdev import KeyEvent, UInput
 
 import keyboard
 import uinput
@@ -19,21 +19,16 @@ def _get_matched_mappings(combination, mappings):
 
 def _handle_event(e, mappings, kb, ui):
     global LAST_MAPPING
-
-    # not key event
-    if e.type != ecodes.EV_KEY:
-        # in case that incoming event is not suitable for mapping
-        uinput.transparent_write(ui, e)
-        return
+    print(f'last mapping: {LAST_MAPPING}')
 
     combination = Combination.from_event(e, kb)
     matched_mappings = _get_matched_mappings(combination, mappings)
 
-    # if last recent mapping is no longer mapped
-    if LAST_MAPPING and LAST_MAPPING not in matched_mappings:
-        # release that mapping
-        uinput.write_release(combination, ui, LAST_MAPPING)
-        return
+    # # if last recent mapping is no longer mapped
+    # if LAST_MAPPING and LAST_MAPPING not in matched_mappings:
+    #     # release that mapping
+    #     print(f'release mapping: {LAST_MAPPING}')
+    #     uinput.write_release(combination, ui, LAST_MAPPING)
 
     # if has any matched mappings
     if matched_mappings:
@@ -53,6 +48,7 @@ def _handle_event(e, mappings, kb, ui):
             uinput.write_release(combination, ui, mapping)
             return
     else:
+        uinput.transparent_write(ui, e)
         LAST_MAPPING = None
 
 
@@ -63,10 +59,7 @@ def _test_event_handler(e, mappings, kb, callback):
 
     combination = Combination.from_event(e, kb)
 
-    matched_mappings = _get_matched_mappings(
-        combination,
-        mappings
-    )
+    matched_mappings = _get_matched_mappings(combination, mappings)
 
     if not matched_mappings:
         return callback([Mapping(combination, combination)])

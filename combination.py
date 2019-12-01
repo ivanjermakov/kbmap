@@ -32,7 +32,7 @@ class Combination:
         :return: string version of object
         """
         keys = self.modifiers + [self.key]
-        verbose = list(map(lambda k: str(evdev.ecodes.keys[k]).replace('KEY_', ''), keys))
+        verbose = list(map(lambda k: str(evdev.ecodes.keys[k]).replace('KEY_', '') if k else 'DROP', keys))
         return '+'.join(verbose)
 
     def matching(self, combination):
