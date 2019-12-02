@@ -35,6 +35,9 @@ class Combination:
         verbose = list(map(lambda k: str(evdev.ecodes.keys[k]).replace('KEY_', '') if k else 'DROP', keys))
         return '+'.join(verbose)
 
+    def keys(self):
+        return self.modifiers + [self.key]
+
     def matching(self, combination):
         """
         Check whether combination match another one.
@@ -44,6 +47,14 @@ class Combination:
         :return: true if combinations match, false otherwise
         """
         return self.key == combination.key and all(m in combination.modifiers for m in self.modifiers)
+
+    def matching_subset(self, combination):
+        """
+        If all self keys are contained in combination without strict key-to-key matching
+        :param combination:
+        :return:
+        """
+        return all(m in combination.keys() for m in self.keys())
 
     @staticmethod
     def from_event(e, keyboard):

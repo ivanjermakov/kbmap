@@ -7,7 +7,8 @@ def transparent_write(ui, e):
 
 
 def write_press(comb, ui, mapping):
-    print(f'v: {mapping}')
+    if not mapping.target.key:
+        return
     for m in mapping.source.modifiers:
         ui.write(ecodes.EV_KEY, m, KeyEvent.key_up)
     for m in mapping.target.modifiers:
@@ -17,7 +18,6 @@ def write_press(comb, ui, mapping):
 
 
 def write_release(comb, ui, mapping):
-    print(f'^: {mapping}')
     if mapping.target.key:
         ui.write(ecodes.EV_KEY, mapping.target.key, KeyEvent.key_up)
     for m in mapping.target.modifiers:

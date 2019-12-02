@@ -8,8 +8,6 @@ import uinput
 from combination import Combination
 from mapping import Mapping
 
-LAST_MAPPING = None
-
 
 def _get_matched_mappings(combination, mappings):
     return list(
@@ -17,39 +15,28 @@ def _get_matched_mappings(combination, mappings):
     )
 
 
+def _get_matched_subset_mappings(combination, mappings):
+    return list(
+        filter(lambda m: m.source.matching_subset(combination), mappings)
+    )
+
+
 def _handle_event(e, mappings, kb, ui):
-    global LAST_MAPPING
-    print(f'last mapping: {LAST_MAPPING}')
-
     combination = Combination.from_event(e, kb)
-    matched_mappings = _get_matched_mappings(combination, mappings)
 
-    # # if last recent mapping is no longer mapped
-    # if LAST_MAPPING and LAST_MAPPING not in matched_mappings:
-    #     # release that mapping
-    #     print(f'release mapping: {LAST_MAPPING}')
-    #     uinput.write_release(combination, ui, LAST_MAPPING)
-
-    # if has any matched mappings
-    if matched_mappings:
-        # use first matched mapping
-        mapping = matched_mappings[0]
-        LAST_MAPPING = mapping
-
-        if not mapping.target.key:
+    if e.value == KeyEvent.key_down:
+        matched_mappings = _get_matched_mappings(combination, mappings)
+        if matched_mappings:
+            uinput.write_press(combination, ui, matched_mappings[0])
             return
 
-        # key press
-        if e.value == KeyEvent.key_down:
-            uinput.write_press(combination, ui, mapping)
+    if e.value == KeyEvent.key_up:
+        matched_subset = _get_matched_subset_mappings(combination, mappings)
+        if matched_subset:
+            uinput.write_release(combination, ui, matched_subset[0])
             return
-        # key release
-        if e.value == KeyEvent.key_up:
-            uinput.write_release(combination, ui, mapping)
-            return
-    else:
-        uinput.transparent_write(ui, e)
-        LAST_MAPPING = None
+
+    uinput.transparent_write(ui, e)
 
 
 def _test_event_handler(e, mappings, kb, callback):

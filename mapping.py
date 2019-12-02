@@ -1,6 +1,7 @@
 from enum import Enum
 
 from combination import Combination
+from util import flatten
 
 
 # TODO
@@ -73,3 +74,7 @@ class Mapping:
                 )
             )
         )
+
+    @staticmethod
+    def merge(mappings_list):
+        return flatten(mappings_list)

@@ -19,6 +19,10 @@ def listen_key_events(keyboard, event_handler, stoppable=True, stop_callback=Non
     for e in keyboard.read_loop():
         if e.type == ecodes.EV_KEY:
 
+            # ignore HOLD events
+            if e.value == KeyEvent.key_hold:
+                continue
+
             # handle program stop
             if stoppable:
                 if is_ctrl_z(e, keyboard):
