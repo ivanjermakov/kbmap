@@ -4,7 +4,7 @@
 Linux keyboard mapping utility
 
 ### About
-Mapping physical keyboard keys under Linux system is tricky. Since there is multiple places where you can interrupt and handle keystroke, there is a ton of solutions for different levels. But if you need to handle keystroke straight from the physical device, before [converting keycode to the keysym](https://wiki.archlinux.org/index.php/Keyboard_input) (it's a place, where windowing system applies keyboard layouts and locales), then you need a low-level solution. **No more!** 
+Mapping physical keyboard keys under the Linux system is tricky. Since there are multiple places where you can interrupt and handle keystroke, there is a ton of solutions for different levels. But if you need to handle keystroke straight from the physical device, before [converting keycode to the keysym](https://wiki.archlinux.org/index.php/Keyboard_input) (it's a place, where windowing system applies keyboard layouts and locales), then you need a low-level solution. **No more!** 
 
 KBMAP allows you to apply flexible configurations directly to the keyboard input device without writing a mess of C code or breaking system config files. 
 
