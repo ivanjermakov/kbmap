@@ -1,8 +1,12 @@
 import click
 
-debug = False
+debug_enabled = False
 
 
 def log(message):
-    if debug:
+    click.echo(message)
+
+
+def debug(message):
+    if debug_enabled:
         click.echo(message)

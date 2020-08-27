@@ -16,7 +16,7 @@ def kbmap(config_path, device_name, uinput_name, verbose):
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME using CONFIG_PATH
     configuration.
     """
-    log.debug = verbose
+    log.debug_enabled = verbose
     mapper.map(config_path, device_name, uinput_name)
 
 
