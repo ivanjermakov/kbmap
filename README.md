@@ -40,7 +40,7 @@ Note: configuration is applied only for current boot. Probably, you may want to 
 ### FAQ
 **Q: How it works?**\
 A: KBMAP uses [evdev](https://en.wikipedia.org/wiki/Evdev) - a Linux input event interface.
-There is python bindings for evdev library: [python-evdev](https://python-evdev.readthedocs.io/en/latest/).
+There is python binding for evdev library: [python-evdev](https://python-evdev.readthedocs.io/en/latest/).
 Mapping algorithm:
 1. Find a target device by name (specified with DEVICE_NAME argument)
 2. Create new [uinput device](https://python-evdev.readthedocs.io/en/latest/apidoc.html#module-evdev.uinput) (kind of a virtual input device) with specified name (--name option)
