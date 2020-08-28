@@ -1,5 +1,6 @@
 from evdev.ecodes import *
 
+from action.layer_on_action import LayerOnAction
 from action.mod_tap_action import ModTapAction
 from action.modified_key_action import ModifiedKeyAction
 
@@ -9,7 +10,7 @@ KC_NO = None
 
 KC_TRANSPARENT = None
 KC_TRNS = KC_TRANSPARENT
-_______ = KC_TRANSPARENT
+T______ = KC_TRANSPARENT
 
 # digits
 KC_0 = KEY_0
@@ -693,3 +694,9 @@ SCMD_T = SGUI_T
 SWIN_T = SGUI_T
 SAGR_T = RSA_T
 ALL_T = HYPR_T
+
+
+# layer actions
+
+def MO(layer):
+    return LayerOnAction(layer)

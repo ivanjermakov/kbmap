@@ -17,7 +17,7 @@ def kbmap(config_path, device_name, name, verbose):
     configuration.
     """
     log.debug_enabled = verbose
-    mapper.map(config_path, device_name, name)
+    mapper.map_device(config_path, device_name, name)
 
 
 kbmap()

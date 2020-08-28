@@ -1,5 +1,9 @@
 from evdev import *
 
+import key
+import mapper
+from log import debug
+
 
 def write(ui, e):
     ui.write(ecodes.EV_KEY, e.code, e.value)
@@ -29,8 +33,12 @@ def write_release(ui, *codes):
     ui.syn()
 
 
-def release_keys(ui, kb):
-    active_keys = kb.active_keys()
-    for k in active_keys:
-        ui.write(ecodes.EV_KEY, k, KeyEvent.key_up)
-    ui.syn()
+def release_layer_keys(ui, layer, config):
+    debug(f'releasing layer [{layer}] keys')
+    for pos, is_pressed in enumerate(mapper.layers_keys_pressed[layer]):
+        if is_pressed:
+            keycode = config.keymaps[layer][pos]
+            if keycode != key.KC_TRANSPARENT:
+                debug(f'key {keycode} released')
+                write_release(ui, keycode)
+                mapper.layers_keys_pressed[layer][pos] = False
