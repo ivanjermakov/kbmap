@@ -523,7 +523,7 @@ KC_ZOOMOUT = KEY_ZOOMOUT
 # actions
 
 # modifier key actions
-def MKA(key, modifiers):
+def MK(key, modifiers):
     return ModifiedKeyAction(key, modifiers)
 
 
@@ -594,9 +594,20 @@ def HYPR(key):
 KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
 KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
 
+C = LCTL
+S = LSFT
+A = LALT
+LOPT = LALT
+G = LGUI
+LCMD = LGUI
+LWIN = LGUI
+ROPT = RALT
+ALGR = RALT
+SAGR = RSA
+
 
 # mod tap actions
-def MTA(key, modifier):
+def MT(key, modifier):
     return ModTapAction(key, modifier)
 
 
@@ -662,3 +673,23 @@ def MEH_T(key):
 
 def HYPR_T(key):
     return ModTapAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+
+CTL_T = LCTL_T
+SFT_T = LSFT_T
+LOPT_T = LALT_T
+ALT_T = LALT_T
+OPT_T = LALT_T
+LCMD_T = LGUI_T
+LWIN_T = LGUI_T
+GUI_T = LGUI_T
+CMD_T = LGUI_T
+WIN_T = LGUI_T
+ROPT_T = RALT_T
+ALGR_T = RALT_T
+RCMD_T = RGUI_T
+RWIN_T = RGUI_T
+SCMD_T = SGUI_T
+SWIN_T = SGUI_T
+SAGR_T = RSA_T
+ALL_T = HYPR_T
