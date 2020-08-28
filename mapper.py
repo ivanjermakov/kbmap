@@ -113,3 +113,14 @@ def find_key(pos, config):
         layer_key = layer[pos]
         if active_layers[layer_index] and layer_key != key.KC_TRANSPARENT:
             return layer_key, layer_index
+
+
+def enable_layer(layer):
+    global active_layers
+    active_layers[layer] = True
+
+
+def disable_layer(layer):
+    global active_layers
+    active_layers[layer] = False
+    host.release_layer_keys(ui, self.layer, config)
