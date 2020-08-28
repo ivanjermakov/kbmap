@@ -1,20 +1,15 @@
 from evdev.ecodes import *
 
+from action.mod_tap_action import ModTapAction
+from action.modified_key_action import ModifiedKeyAction
+
 # special keys
+
 KC_NO = None
-"""
-Special 'no mapping' key.
-When used in mapping, combination with this key will not be encountered.
-"""
 
 KC_TRANSPARENT = None
 KC_TRNS = KC_TRANSPARENT
 _______ = KC_TRANSPARENT
-"""
-Special key.
-Used to indicate that current layer has no keys to assign.
-Layer with lower precedence will be used instead.
-"""
 
 # digits
 KC_0 = KEY_0
@@ -198,6 +193,17 @@ KC_PDOT = KC_KP_DOT
 # KC_NUBS = KC_NONUS_BSLASH
 KC_APP = KC_APPLICATION
 KC_PEQL = KC_KP_EQUAL
+KC_LCTL = KC_LCTRL
+KC_LSFT = KC_LSHIFT
+KC_LOPT = KC_LALT
+KC_LCMD = KC_LGUI
+KC_LWIN = KC_LGUI
+KC_RCTL = KC_RCTRL
+KC_RSFT = KC_RSHIFT
+KC_ROPT = KC_RALT
+KC_ALGR = KC_RALT
+KC_RCMD = KC_RGUI
+KC_RWIN = KC_RGUI
 
 # others
 KC_KP_COMMA = KEY_KPCOMMA
@@ -512,3 +518,178 @@ KC_ZENKAKUHANKAKU = KEY_ZENKAKUHANKAKU
 KC_ZOOM = KEY_ZOOM
 KC_ZOOMIN = KEY_ZOOMIN
 KC_ZOOMOUT = KEY_ZOOMOUT
+
+
+# actions
+
+# modifier key actions
+def MK(key, modifiers):
+    return ModifiedKeyAction(key, modifiers)
+
+
+def LCTL(key):
+    return ModifiedKeyAction(key, KC_LCTL)
+
+
+def LSFT(key):
+    return ModifiedKeyAction(key, KC_LSFT)
+
+
+def LALT(key):
+    return ModifiedKeyAction(key, KC_LALT)
+
+
+def LGUI(key):
+    return ModifiedKeyAction(key, KC_LGUI)
+
+
+def RCTL(key):
+    return ModifiedKeyAction(key, KC_RCTL)
+
+
+def RSFT(key):
+    return ModifiedKeyAction(key, KC_RSFT)
+
+
+def RALT(key):
+    return ModifiedKeyAction(key, KC_RALT)
+
+
+def RGUI(key):
+    return ModifiedKeyAction(key, KC_RGUI)
+
+
+def SGUI(key):
+    return ModifiedKeyAction(key, KC_LSFT, KC_LGUI)
+
+
+def LCA(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LALT)
+
+
+def LSA(key):
+    return ModifiedKeyAction(key, KC_LSFT, KC_LALT)
+
+
+def RSA(key):
+    return ModifiedKeyAction(key, KC_RSFT, KC_RALT)
+
+
+def RCS(key):
+    return ModifiedKeyAction(key, KC_RCTL, KC_RSFT)
+
+
+def LCAG(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+
+
+def MEH(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+
+
+def HYPR(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+
+KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
+KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+C = LCTL
+S = LSFT
+A = LALT
+LOPT = LALT
+G = LGUI
+LCMD = LGUI
+LWIN = LGUI
+ROPT = RALT
+ALGR = RALT
+SAGR = RSA
+
+
+# mod tap actions
+def MT(key, modifier):
+    return ModTapAction(key, modifier)
+
+
+def LCTL_T(key):
+    return ModTapAction(key, KC_LCTL)
+
+
+def LSFT_T(key):
+    return ModTapAction(key, KC_LSFT)
+
+
+def LALT_T(key):
+    return ModTapAction(key, KC_LALT)
+
+
+def LGUI_T(key):
+    return ModTapAction(key, KC_LGUI)
+
+
+def RCTL_T(key):
+    return ModTapAction(key, KC_RCTL)
+
+
+def RSFT_T(key):
+    return ModTapAction(key, KC_RSFT)
+
+
+def RALT_T(key):
+    return ModTapAction(key, KC_RALT)
+
+
+def RGUI_T(key):
+    return ModTapAction(key, KC_RGUI)
+
+
+def SGUI_T(key):
+    return ModTapAction(key, KC_LSFT, KC_LGUI)
+
+
+def LCA_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LALT)
+
+
+def LSA_T(key):
+    return ModTapAction(key, KC_LSFT, KC_LALT)
+
+
+def RSA_T(key):
+    return ModTapAction(key, KC_RSFT, KC_RALT)
+
+
+def RCS_T(key):
+    return ModTapAction(key, KC_RCTL, KC_RSFT)
+
+
+def LCAG_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+
+
+def MEH_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+
+
+def HYPR_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+
+CTL_T = LCTL_T
+SFT_T = LSFT_T
+LOPT_T = LALT_T
+ALT_T = LALT_T
+OPT_T = LALT_T
+LCMD_T = LGUI_T
+LWIN_T = LGUI_T
+GUI_T = LGUI_T
+CMD_T = LGUI_T
+WIN_T = LGUI_T
+ROPT_T = RALT_T
+ALGR_T = RALT_T
+RCMD_T = RGUI_T
+RWIN_T = RGUI_T
+SCMD_T = SGUI_T
+SWIN_T = SGUI_T
+SAGR_T = RSA_T
+ALL_T = HYPR_T

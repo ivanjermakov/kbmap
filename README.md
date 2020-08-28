@@ -10,12 +10,6 @@ KBMAP allows you to apply flexible configurations directly to the keyboard input
 
 KBMAP is heavily inspired by [QMK](https://github.com/qmk/qmk_firmware/) - highly customizable mechanical keyboard firmware. Basically, ideally KBMAP will be the QMK of any non-programmable keyboard (and maybe not only keyboard).
 
-Core concepts and features:
- * mapping physical device input, before a [windowing system](https://en.wikipedia.org/wiki/Windowing_system) comes in
- * no differentiation between modifier and character keys (you can use character key as modifier)
- * flexible configuration system
- * alternative software configuration support
-
 ### Installing
 ````shell script
 git clone https://github.com/ivanjermakov/kbmap.git

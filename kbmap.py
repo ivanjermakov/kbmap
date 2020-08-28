@@ -11,13 +11,13 @@ import mapper
 @click.argument('device_name')
 @click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events.')
 @click.option('--verbose', '-v', is_flag=True, help='Print detailed logs')
-def kbmap(config_path, device_name, uinput_name, verbose):
+def kbmap(config_path, device_name, name, verbose):
     """
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME using CONFIG_PATH
     configuration.
     """
     log.debug_enabled = verbose
-    mapper.map(config_path, device_name, uinput_name)
+    mapper.map(config_path, device_name, name)
 
 
 kbmap()
