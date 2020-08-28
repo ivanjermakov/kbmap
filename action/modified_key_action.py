@@ -17,6 +17,7 @@ class ModifiedKeyAction:
         self.key = key
 
     def handle(self, ui, e):
+        debug('-- handling modified key action --')
         if e.value == KeyEvent.key_down:
             for m in self.modifiers:
                 host.write_code(ui, m, e.value)

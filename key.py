@@ -1,5 +1,6 @@
 from evdev.ecodes import *
 
+from action.mod_tap_action import ModTapAction
 from action.modified_key_action import ModifiedKeyAction
 
 # special keys
@@ -520,11 +521,12 @@ KC_ZOOMOUT = KEY_ZOOMOUT
 
 
 # actions
+
+# modifier key actions
 def MKA(key, modifiers):
     return ModifiedKeyAction(key, modifiers)
 
 
-# modifier actions
 def LCTL(key):
     return ModifiedKeyAction(key, KC_LCTL)
 
@@ -591,3 +593,72 @@ def HYPR(key):
 
 KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
 KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+
+# mod tap actions
+def MTA(key, modifier):
+    return ModTapAction(key, modifier)
+
+
+def LCTL_T(key):
+    return ModTapAction(key, KC_LCTL)
+
+
+def LSFT_T(key):
+    return ModTapAction(key, KC_LSFT)
+
+
+def LALT_T(key):
+    return ModTapAction(key, KC_LALT)
+
+
+def LGUI_T(key):
+    return ModTapAction(key, KC_LGUI)
+
+
+def RCTL_T(key):
+    return ModTapAction(key, KC_RCTL)
+
+
+def RSFT_T(key):
+    return ModTapAction(key, KC_RSFT)
+
+
+def RALT_T(key):
+    return ModTapAction(key, KC_RALT)
+
+
+def RGUI_T(key):
+    return ModTapAction(key, KC_RGUI)
+
+
+def SGUI_T(key):
+    return ModTapAction(key, KC_LSFT, KC_LGUI)
+
+
+def LCA_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LALT)
+
+
+def LSA_T(key):
+    return ModTapAction(key, KC_LSFT, KC_LALT)
+
+
+def RSA_T(key):
+    return ModTapAction(key, KC_RSFT, KC_RALT)
+
+
+def RCS_T(key):
+    return ModTapAction(key, KC_RCTL, KC_RSFT)
+
+
+def LCAG_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+
+
+def MEH_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+
+
+def HYPR_T(key):
+    return ModTapAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
