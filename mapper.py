@@ -51,9 +51,13 @@ def handle_event(e, kb, ui, config):
     debug(f'key is {ecodes.KEY[e.code]} ({e.code}) at {pos}')
 
     keycode = config.keymaps[0][pos]
-    debug(f'mapped keymap: {ecodes.KEY[keycode]} ({keycode}) at {pos}')
 
-    host.write_code(ui, keycode, e.value)
+    if hasattr(keycode, 'type'):
+        debug(f'key is mapped to action of type {keycode.type} at {pos}')
+        keycode.handle(ui, e)
+    else:
+        debug(f'key is mapped to key: {ecodes.KEY[keycode]} ({keycode}) at {pos}')
+        host.write_code(ui, keycode, e.value)
 
 
 def map_key_to_pos(code, config):

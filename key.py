@@ -1,20 +1,14 @@
 from evdev.ecodes import *
 
+from action.modified_key_action import ModifiedKeyAction
+
 # special keys
+
 KC_NO = None
-"""
-Special 'no mapping' key.
-When used in mapping, combination with this key will not be encountered.
-"""
 
 KC_TRANSPARENT = None
 KC_TRNS = KC_TRANSPARENT
 _______ = KC_TRANSPARENT
-"""
-Special key.
-Used to indicate that current layer has no keys to assign.
-Layer with lower precedence will be used instead.
-"""
 
 # digits
 KC_0 = KEY_0
@@ -523,3 +517,77 @@ KC_ZENKAKUHANKAKU = KEY_ZENKAKUHANKAKU
 KC_ZOOM = KEY_ZOOM
 KC_ZOOMIN = KEY_ZOOMIN
 KC_ZOOMOUT = KEY_ZOOMOUT
+
+
+# actions
+def MKA(key, modifiers):
+    return ModifiedKeyAction(key, modifiers)
+
+
+# modifier actions
+def LCTL(key):
+    return ModifiedKeyAction(key, KC_LCTL)
+
+
+def LSFT(key):
+    return ModifiedKeyAction(key, KC_LSFT)
+
+
+def LALT(key):
+    return ModifiedKeyAction(key, KC_LALT)
+
+
+def LGUI(key):
+    return ModifiedKeyAction(key, KC_LGUI)
+
+
+def RCTL(key):
+    return ModifiedKeyAction(key, KC_RCTL)
+
+
+def RSFT(key):
+    return ModifiedKeyAction(key, KC_RSFT)
+
+
+def RALT(key):
+    return ModifiedKeyAction(key, KC_RALT)
+
+
+def RGUI(key):
+    return ModifiedKeyAction(key, KC_RGUI)
+
+
+def SGUI(key):
+    return ModifiedKeyAction(key, KC_LSFT, KC_LGUI)
+
+
+def LCA(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LALT)
+
+
+def LSA(key):
+    return ModifiedKeyAction(key, KC_LSFT, KC_LALT)
+
+
+def RSA(key):
+    return ModifiedKeyAction(key, KC_RSFT, KC_RALT)
+
+
+def RCS(key):
+    return ModifiedKeyAction(key, KC_RCTL, KC_RSFT)
+
+
+def LCAG(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+
+
+def MEH(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+
+
+def HYPR(key):
+    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+
+
+KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
+KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)

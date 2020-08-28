@@ -1,4 +1,5 @@
 from layout import *
+from key import *
 
 physical_layout = laptop
 
