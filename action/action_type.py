@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class ActionType(Enum):
-    ModifiedKeyAction = 1
+    ModKeyAction = 1
     ModTapAction = 2
     LayerOnAction = 3
+    LayerModAction = 4

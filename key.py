@@ -1,8 +1,9 @@
 from evdev.ecodes import *
 
+from action.layer_mod_action import LayerModAction
 from action.layer_on_action import LayerOnAction
+from action.mod_key_action import ModKeyAction
 from action.mod_tap_action import ModTapAction
-from action.modified_key_action import ModifiedKeyAction
 
 # special keys
 
@@ -525,75 +526,75 @@ KC_ZOOMOUT = KEY_ZOOMOUT
 
 # modifier key actions
 def MK(key, modifiers):
-    return ModifiedKeyAction(key, modifiers)
+    return ModKeyAction(key, modifiers)
 
 
 def LCTL(key):
-    return ModifiedKeyAction(key, KC_LCTL)
+    return ModKeyAction(key, KC_LCTL)
 
 
 def LSFT(key):
-    return ModifiedKeyAction(key, KC_LSFT)
+    return ModKeyAction(key, KC_LSFT)
 
 
 def LALT(key):
-    return ModifiedKeyAction(key, KC_LALT)
+    return ModKeyAction(key, KC_LALT)
 
 
 def LGUI(key):
-    return ModifiedKeyAction(key, KC_LGUI)
+    return ModKeyAction(key, KC_LGUI)
 
 
 def RCTL(key):
-    return ModifiedKeyAction(key, KC_RCTL)
+    return ModKeyAction(key, KC_RCTL)
 
 
 def RSFT(key):
-    return ModifiedKeyAction(key, KC_RSFT)
+    return ModKeyAction(key, KC_RSFT)
 
 
 def RALT(key):
-    return ModifiedKeyAction(key, KC_RALT)
+    return ModKeyAction(key, KC_RALT)
 
 
 def RGUI(key):
-    return ModifiedKeyAction(key, KC_RGUI)
+    return ModKeyAction(key, KC_RGUI)
 
 
 def SGUI(key):
-    return ModifiedKeyAction(key, KC_LSFT, KC_LGUI)
+    return ModKeyAction(key, KC_LSFT, KC_LGUI)
 
 
 def LCA(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LALT)
+    return ModKeyAction(key, KC_LCTL, KC_LALT)
 
 
 def LSA(key):
-    return ModifiedKeyAction(key, KC_LSFT, KC_LALT)
+    return ModKeyAction(key, KC_LSFT, KC_LALT)
 
 
 def RSA(key):
-    return ModifiedKeyAction(key, KC_RSFT, KC_RALT)
+    return ModKeyAction(key, KC_RSFT, KC_RALT)
 
 
 def RCS(key):
-    return ModifiedKeyAction(key, KC_RCTL, KC_RSFT)
+    return ModKeyAction(key, KC_RCTL, KC_RSFT)
 
 
 def LCAG(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+    return ModKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
 
 
 def MEH(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+    return ModKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
 
 
 def HYPR(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+    return ModKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
 
 
-KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
-KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+KC_MEH = ModKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
+KC_HYPR = ModKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
 
 C = LCTL
 S = LSFT
@@ -700,3 +701,7 @@ ALL_T = HYPR_T
 
 def MO(layer):
     return LayerOnAction(layer)
+
+
+def LM(layer, *modifiers):
+    return LayerModAction(layer, *modifiers)

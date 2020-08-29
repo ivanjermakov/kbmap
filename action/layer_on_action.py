@@ -13,9 +13,9 @@ class LayerOnAction:
         self.type = ActionType.LayerOnAction
         self.layer = layer
 
-    def handle(self, _, e, *args):
+    def handle(self, ui, e, config, *args):
         debug('-- handling layer on action --')
         if e.value == KeyEvent.key_up:
-            mapper.enable_layer(self.layer)
+            mapper.enable_layer(self.layer, self, config)
         else:
-            mapper.disable_layer(self.layer)
+            mapper.disable_layer(ui, self.layer, config)

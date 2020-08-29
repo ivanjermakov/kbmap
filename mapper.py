@@ -1,5 +1,6 @@
 import importlib
 import importlib.util
+from typing import List
 
 import click
 from evdev import UInput, ecodes
@@ -8,11 +9,12 @@ from evdev.events import KeyEvent
 import host
 import key
 import keyboard
+from layer import Layer
 from log import debug
 
-last_press_timestamps = []
-active_layers = []
-layers_keys_pressed = []
+last_press_timestamps: List[float] = []
+active_layers: List[Layer] = []
+layers_keys_pressed: List[List[int]] = []
 
 
 def load_config(path):
@@ -38,9 +40,9 @@ def map_device(config_path, kb_name, ui_name='kbmap'):
     global last_press_timestamps
     last_press_timestamps = [None for _ in range(len(config.physical_layout))]
     global active_layers
-    active_layers = [False for _ in range(len(config.keymaps))]
+    active_layers = [None for _ in range(len(config.keymaps))]
     # base layer is always active
-    active_layers[0] = True
+    active_layers[0] = Layer(config.keymaps[0], None)
     global layers_keys_pressed
     layers_keys_pressed = [[] for _ in range(len(active_layers))]
     for i in range(len(active_layers)):
@@ -77,7 +79,7 @@ def handle_event(e, kb, ui, config):
         key.handle(ui, e, config, pos)
     else:
         debug(f'key is mapped to key: {ecodes.KEY[key]} ({key}) at {pos}')
-        host.write_code(ui, key, e.value)
+        write_key(ui, key, e, layer_index, config)
 
     update_timestamps(pos, e)
 
@@ -115,12 +117,21 @@ def find_key(pos, config):
             return layer_key, layer_index
 
 
-def enable_layer(layer):
+def write_key(ui, key, e, layer, config):
     global active_layers
-    active_layers[layer] = True
+    active_layer = active_layers[layer]
+    if active_layer and active_layer.activator:
+        active_layer.activator.handle_layer_key(ui, key, e, config)
+    else:
+        host.write_code(ui, key, e.value)
 
 
-def disable_layer(layer):
+def enable_layer(layer, activator, config):
     global active_layers
-    active_layers[layer] = False
-    host.release_layer_keys(ui, self.layer, config)
+    active_layers[layer] = Layer(config.keymaps[layer], activator)
+
+
+def disable_layer(ui, layer, config):
+    global active_layers
+    active_layers[layer] = None
+    host.release_layer_keys(ui, layer, config)
