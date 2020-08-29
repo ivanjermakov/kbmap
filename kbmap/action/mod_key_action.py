@@ -2,22 +2,23 @@ from typing import Tuple
 
 from evdev.events import KeyEvent
 
-import host
-from action.action_type import ActionType
+from kbmap import host
+from kbmap.action.action_type import ActionType
+from kbmap.log import debug
 
 
-class ModifiedKeyAction:
+class ModKeyAction:
     type: ActionType
     key: int
     modifiers: Tuple[int, ...]
 
     def __init__(self, key, *modifiers):
-        self.type = ActionType.ModifiedKeyAction
+        self.type = ActionType.ModKeyAction
         self.modifiers = modifiers
         self.key = key
 
-    def handle(self, ui, e):
-        debug('-- handling modified key action --')
+    def handle(self, ui, e, *args):
+        debug('-- handling mod key action --')
         if e.value == KeyEvent.key_down:
             for m in self.modifiers:
                 host.write_code(ui, m, e.value)

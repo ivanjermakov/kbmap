@@ -1,15 +1,19 @@
 from evdev.ecodes import *
 
-from action.mod_tap_action import ModTapAction
-from action.modified_key_action import ModifiedKeyAction
+from kbmap.action.layer_mod_action import LayerModAction
+from kbmap.action.layer_on_action import LayerOnAction
+from kbmap.action.layer_tap_action import LayerTapAction
+from kbmap.action.layer_toggle_action import LayerToggleAction
+from kbmap.action.mod_key_action import ModKeyAction
+from kbmap.action.mod_tap_action import ModTapAction
 
 # special keys
 
-KC_NO = None
+KC_NO = 999
 
 KC_TRANSPARENT = None
 KC_TRNS = KC_TRANSPARENT
-_______ = KC_TRANSPARENT
+T______ = KC_TRANSPARENT
 
 # digits
 KC_0 = KEY_0
@@ -297,7 +301,6 @@ KC_DIRECTORY = KEY_DIRECTORY
 KC_DISPLAYTOGGLE = KEY_DISPLAYTOGGLE
 KC_DISPLAY_OFF = KEY_DISPLAY_OFF
 KC_DOCUMENTS = KEY_DOCUMENTS
-KC_DOLLAR = KEY_DOLLAR
 KC_DVD = KEY_DVD
 KC_EDIT = KEY_EDIT
 KC_EDITOR = KEY_EDITOR
@@ -430,7 +433,6 @@ KC_PROG4 = KEY_PROG4
 KC_PROGRAM = KEY_PROGRAM
 KC_PROPS = KEY_PROPS
 KC_PVR = KEY_PVR
-KC_QUESTION = KEY_QUESTION
 KC_RADIO = KEY_RADIO
 KC_RECORD = KEY_RECORD
 KC_RED = KEY_RED
@@ -524,75 +526,75 @@ KC_ZOOMOUT = KEY_ZOOMOUT
 
 # modifier key actions
 def MK(key, modifiers):
-    return ModifiedKeyAction(key, modifiers)
+    return ModKeyAction(key, modifiers)
 
 
 def LCTL(key):
-    return ModifiedKeyAction(key, KC_LCTL)
+    return ModKeyAction(key, KC_LCTL)
 
 
 def LSFT(key):
-    return ModifiedKeyAction(key, KC_LSFT)
+    return ModKeyAction(key, KC_LSFT)
 
 
 def LALT(key):
-    return ModifiedKeyAction(key, KC_LALT)
+    return ModKeyAction(key, KC_LALT)
 
 
 def LGUI(key):
-    return ModifiedKeyAction(key, KC_LGUI)
+    return ModKeyAction(key, KC_LGUI)
 
 
 def RCTL(key):
-    return ModifiedKeyAction(key, KC_RCTL)
+    return ModKeyAction(key, KC_RCTL)
 
 
 def RSFT(key):
-    return ModifiedKeyAction(key, KC_RSFT)
+    return ModKeyAction(key, KC_RSFT)
 
 
 def RALT(key):
-    return ModifiedKeyAction(key, KC_RALT)
+    return ModKeyAction(key, KC_RALT)
 
 
 def RGUI(key):
-    return ModifiedKeyAction(key, KC_RGUI)
+    return ModKeyAction(key, KC_RGUI)
 
 
 def SGUI(key):
-    return ModifiedKeyAction(key, KC_LSFT, KC_LGUI)
+    return ModKeyAction(key, KC_LSFT, KC_LGUI)
 
 
 def LCA(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LALT)
+    return ModKeyAction(key, KC_LCTL, KC_LALT)
 
 
 def LSA(key):
-    return ModifiedKeyAction(key, KC_LSFT, KC_LALT)
+    return ModKeyAction(key, KC_LSFT, KC_LALT)
 
 
 def RSA(key):
-    return ModifiedKeyAction(key, KC_RSFT, KC_RALT)
+    return ModKeyAction(key, KC_RSFT, KC_RALT)
 
 
 def RCS(key):
-    return ModifiedKeyAction(key, KC_RCTL, KC_RSFT)
+    return ModKeyAction(key, KC_RCTL, KC_RSFT)
 
 
 def LCAG(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
+    return ModKeyAction(key, KC_LCTL, KC_LALT, KC_LGUI)
 
 
 def MEH(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
+    return ModKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT)
 
 
 def HYPR(key):
-    return ModifiedKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+    return ModKeyAction(key, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
 
 
-KC_MEH = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
-KC_HYPR = ModifiedKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
+KC_MEH = ModKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT)
+KC_HYPR = ModKeyAction(None, KC_LCTL, KC_LSHIFT, KC_LALT, KC_LGUI)
 
 C = LCTL
 S = LSFT
@@ -693,3 +695,66 @@ SCMD_T = SGUI_T
 SWIN_T = SGUI_T
 SAGR_T = RSA_T
 ALL_T = HYPR_T
+
+
+# layer actions
+
+def MO(layer):
+    return LayerOnAction(layer)
+
+
+def LM(layer, *modifiers):
+    return LayerModAction(layer, *modifiers)
+
+
+def TG(layer):
+    return LayerToggleAction(layer)
+
+
+def LT(layer, key):
+    return LayerTapAction(layer, key)
+
+
+# shifted symbols
+KC_TILDE = LSFT(KC_GRAVE)
+KC_EXCLAIM = LSFT(KC_1)
+KC_AT = LSFT(KC_2)
+KC_HASH = LSFT(KC_3)
+KC_DOLLAR = LSFT(KC_4)
+KC_PERCENT = LSFT(KC_5)
+KC_CIRCUMFLEX = LSFT(KC_6)
+KC_AMPERSAND = LSFT(KC_7)
+KC_ASTERISK = LSFT(KC_8)
+KC_LEFT_PAREN = LSFT(KC_9)
+KC_RIGHT_PAREN = LSFT(KC_0)
+KC_UNDERSCORE = LSFT(KC_MINS)
+KC_PLUS = LSFT(KC_EQUAL)
+KC_LEFT_CURLY_BRACE = LSFT(KC_LBRC)
+KC_RIGHT_CURLY_BRACE = LSFT(KC_RBRC)
+KC_PIPE = LSFT(KC_BSLS)
+KC_COLON = LSFT(KC_SCLN)
+KC_DOUBLE_QUOTE = LSFT(KC_QUOT)
+KC_LEFT_ANGLE_BRACKET = LSFT(KC_COMM)
+KC_RIGHT_ANGLE_BRACKET = LSFT(KC_DOT)
+KC_QUESTION = LSFT(KC_SLSH)
+
+KC_TILD = KC_TILDE
+KC_EXLM = KC_EXCLAIM
+KC_DLR = KC_DOLLAR
+KC_PERC = KC_PERCENT
+KC_CIRC = KC_CIRCUMFLEX
+KC_AMPR = KC_AMPERSAND
+KC_ASTR = KC_ASTERISK
+KC_LPRN = KC_LEFT_PAREN
+KC_RPRN = KC_RIGHT_PAREN
+KC_UNDS = KC_UNDERSCORE
+KC_LCBR = KC_LEFT_CURLY_BRACE
+KC_RCBR = KC_RIGHT_CURLY_BRACE
+KC_COLN = KC_COLON
+KC_DQUO = KC_DOUBLE_QUOTE
+KC_DQT = KC_DOUBLE_QUOTE
+KC_LABK = KC_LEFT_ANGLE_BRACKET
+KC_LT = KC_LEFT_ANGLE_BRACKET
+KC_RABK = KC_RIGHT_ANGLE_BRACKET
+KC_GT = KC_RIGHT_ANGLE_BRACKET
+KC_QUES = KC_QUESTION
