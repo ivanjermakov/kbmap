@@ -78,10 +78,16 @@ def handle_event(e, kb, ui, config):
         debug(f'key is mapped to action of type {key.type} at {pos}')
         key.handle(ui, e, config, pos)
     else:
-        debug(f'key is mapped to key: {ecodes.KEY[key]} ({key}) at {pos}')
+        debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
         write_key(ui, key, e, layer_index, config)
 
     update_timestamps(pos, e)
+
+
+def get_key_name(key):
+    if key == 999:
+        return 'KC_NO'
+    return ecodes.KEY.get(key, "UNKNOWN")
 
 
 def map_key_to_pos(code, config):
@@ -120,7 +126,7 @@ def find_key(pos, config):
 def write_key(ui, key, e, layer, config):
     global active_layers
     active_layer = active_layers[layer]
-    if active_layer and active_layer.activator:
+    if active_layer and active_layer.activator and hasattr(active_layer.activator, 'handle_layer_key'):
         active_layer.activator.handle_layer_key(ui, key, e, config)
     else:
         host.write_code(ui, key, e.value)

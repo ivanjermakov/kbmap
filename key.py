@@ -2,12 +2,13 @@ from evdev.ecodes import *
 
 from action.layer_mod_action import LayerModAction
 from action.layer_on_action import LayerOnAction
+from action.layer_toggle_action import LayerToggleAction
 from action.mod_key_action import ModKeyAction
 from action.mod_tap_action import ModTapAction
 
 # special keys
 
-KC_NO = None
+KC_NO = 999
 
 KC_TRANSPARENT = None
 KC_TRNS = KC_TRANSPARENT
@@ -705,3 +706,7 @@ def MO(layer):
 
 def LM(layer, *modifiers):
     return LayerModAction(layer, *modifiers)
+
+
+def TG(layer):
+    return LayerToggleAction(layer)
