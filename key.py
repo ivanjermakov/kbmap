@@ -2,6 +2,7 @@ from evdev.ecodes import *
 
 from action.layer_mod_action import LayerModAction
 from action.layer_on_action import LayerOnAction
+from action.layer_tap_action import LayerTapAction
 from action.layer_toggle_action import LayerToggleAction
 from action.mod_key_action import ModKeyAction
 from action.mod_tap_action import ModTapAction
@@ -710,3 +711,7 @@ def LM(layer, *modifiers):
 
 def TG(layer):
     return LayerToggleAction(layer)
+
+
+def LT(layer, key):
+    return LayerTapAction(layer, key)

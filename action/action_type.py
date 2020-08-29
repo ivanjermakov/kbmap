@@ -7,3 +7,4 @@ class ActionType(Enum):
     LayerOnAction = 3
     LayerModAction = 4
     LayerToggleAction = 5
+    LayerTapAction = 6
