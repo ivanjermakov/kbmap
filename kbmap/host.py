@@ -1,8 +1,7 @@
 from evdev import *
 
-import key
-import mapper
-from log import debug
+from kbmap import mapper, key
+from kbmap.log import debug
 
 
 def write(ui, e):

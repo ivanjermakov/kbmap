@@ -2,9 +2,9 @@ from typing import Tuple
 
 from evdev.events import KeyEvent
 
-import host
-from action.action_type import ActionType
-from log import debug
+from kbmap import host
+from kbmap.action.action_type import ActionType
+from kbmap.log import debug
 
 
 class ModKeyAction:

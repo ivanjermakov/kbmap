@@ -6,11 +6,9 @@ import click
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent
 
-import host
-import key
-import keyboard
-from layer import Layer
-from log import debug
+from kbmap import keyboard, key, host
+from kbmap.layer import Layer
+from kbmap.log import debug
 
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []

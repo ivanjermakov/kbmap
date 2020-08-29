@@ -1,11 +1,11 @@
 from evdev.ecodes import *
 
-from action.layer_mod_action import LayerModAction
-from action.layer_on_action import LayerOnAction
-from action.layer_tap_action import LayerTapAction
-from action.layer_toggle_action import LayerToggleAction
-from action.mod_key_action import ModKeyAction
-from action.mod_tap_action import ModTapAction
+from kbmap.action.layer_mod_action import LayerModAction
+from kbmap.action.layer_on_action import LayerOnAction
+from kbmap.action.layer_tap_action import LayerTapAction
+from kbmap.action.layer_toggle_action import LayerToggleAction
+from kbmap.action.mod_key_action import ModKeyAction
+from kbmap.action.mod_tap_action import ModTapAction
 
 # special keys
 

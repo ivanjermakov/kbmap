@@ -1,9 +1,8 @@
 from evdev.events import KeyEvent
 
-import host
-import mapper
-from action.action_type import ActionType
-from log import debug
+from kbmap import mapper, host
+from kbmap.action.action_type import ActionType
+from kbmap.log import debug
 
 
 class LayerTapAction:

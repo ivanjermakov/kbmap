@@ -1,4 +1,4 @@
-from key import *
+from kbmap.key import *
 
 tkl_transparent = [
     T______, T______, T______, T______, T______, T______, T______, T______, T______, T______, T______, T______, T______,          T______, T______, T______,
