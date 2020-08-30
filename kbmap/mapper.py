@@ -41,7 +41,7 @@ def init_mapper(config):
 
 def map_device(config_path, kb_name, ui_name='kbmap'):
     """
-    Create virtual device with uinput_name that will remap keyboard events from device with name device_name using
+    Create virtual device with ui_name that will remap keyboard events from device with name device_name using
     config_pth configuration.
     :param config_path: path to configuration file
     :param kb_name: source device name. This device will be grabbed
