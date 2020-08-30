@@ -8,7 +8,7 @@ from evdev.events import KeyEvent
 
 from kbmap import keyboard, key, host
 from kbmap.layer import Layer
-from kbmap.log import debug
+from kbmap.log import debug, log
 
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
@@ -24,6 +24,21 @@ def load_config(path):
     return config
 
 
+def init_mapper(config):
+    global last_press_timestamps
+    last_press_timestamps = [None for _ in range(len(config.physical_layout))]
+
+    global active_layers
+    active_layers = [None for _ in range(len(config.keymaps))]
+    # base layer is always active
+    active_layers[0] = Layer(config.keymaps[0], None)
+
+    global layers_keys_pressed
+    layers_keys_pressed = [[] for _ in range(len(active_layers))]
+    for i in range(len(active_layers)):
+        layers_keys_pressed[i] = [False for _ in range(len(config.keymaps[i]))]
+
+
 def map_device(config_path, kb_name, ui_name='kbmap'):
     """
     Create virtual device with uinput_name that will remap keyboard events from device with name device_name using
@@ -34,17 +49,7 @@ def map_device(config_path, kb_name, ui_name='kbmap'):
     """
 
     config = load_config(config_path)
-
-    global last_press_timestamps
-    last_press_timestamps = [None for _ in range(len(config.physical_layout))]
-    global active_layers
-    active_layers = [None for _ in range(len(config.keymaps))]
-    # base layer is always active
-    active_layers[0] = Layer(config.keymaps[0], None)
-    global layers_keys_pressed
-    layers_keys_pressed = [[] for _ in range(len(active_layers))]
-    for i in range(len(active_layers)):
-        layers_keys_pressed[i] = [False for _ in range(len(config.keymaps[i]))]
+    init_mapper(config)
 
     kb = keyboard.get_device_by_name(kb_name)
     keyboard.grab(kb)
@@ -54,12 +59,12 @@ def map_device(config_path, kb_name, ui_name='kbmap'):
     with ui:
         keyboard.listen_key_events(
             kb,
-            lambda e: handle_event(e, kb, ui, config),
+            lambda e: handle_event(e, ui, config),
             False
         )
 
 
-def handle_event(e, kb, ui, config):
+def handle_event(e, ui, config):
     global layers_keys_pressed
 
     debug(f'-------- handling {e} --------')
@@ -93,7 +98,7 @@ def map_key_to_pos(code, config):
     try:
         return config.physical_layout.index(code)
     except ValueError:
-        click.echo(f'no key {ecodes.KEY[code]} in physical config')
+        log(f'no key {ecodes.KEY[code]} in physical config')
 
 
 def update_timestamps(pos, e):
