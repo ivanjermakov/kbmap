@@ -143,4 +143,4 @@ def enable_layer(layer, activator, config):
 def disable_layer(ui, layer, config):
     global active_layers
     active_layers[layer] = None
-    host.release_layer_keys(ui, layer, config)
+    host.release_weak_keys(ui, config)

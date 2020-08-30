@@ -7,6 +7,19 @@ from kbmap.action.layer_toggle_action import LayerToggleAction
 from kbmap.action.mod_key_action import ModKeyAction
 from kbmap.action.mod_tap_action import ModTapAction
 
+
+def is_weak(key):
+    return not is_action(key) and not is_mod(key)
+
+
+def is_mod(key):
+    return key in [KC_LCTRL, KC_RCTRL, KC_LSHIFT, KC_RSHIFT, KC_LALT, KC_RALT, KC_LGUI, KC_RGUI]
+
+
+def is_action(key):
+    return hasattr(key, 'type')
+
+
 # special keys
 
 KC_NO = 999
