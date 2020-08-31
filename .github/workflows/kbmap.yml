@@ -23,5 +23,5 @@ jobs:
         run: pip install .
 
       - name: test
-        run: sudo python -m unittest -v
+        run: sudo python -m unittest discover test -v
 
