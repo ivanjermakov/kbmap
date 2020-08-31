@@ -19,9 +19,14 @@ jobs:
         with:
           python-version: '3.x'
 
+#     only for CI environment
+#     use issue #8 solution instead
+      - name: open /dev/uinput
+        - run: sudo chmod 777 /dev/uinput
+
       - name: install
-        run: sudo pip install .
+        run: pip install .
 
       - name: test
-        run: sudo python -m unittest discover test -v
+        run: python -m unittest discover test -v
 
