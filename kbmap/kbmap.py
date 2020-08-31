@@ -1,20 +1,36 @@
 import click
+import pkg_resources
 
 from kbmap import log, mapper
 
+VERSION = f'v{pkg_resources.require("kbmap")[0].version}'
 
-@click.command(short_help='Perform mapping.')
-@click.argument('config_path')
+WELCOME_MESSAGE = f"""\
+
+
+    $$\   $$\ $$$$$$$\  $$\      $$\  $$$$$$\  $$$$$$$\  
+    $$ | $$  |$$  __$$\ $$$\    $$$ |$$  __$$\ $$  __$$\ 
+    $$ |$$  / $$ |  $$ |$$$$\  $$$$ |$$ /  $$ |$$ |  $$ |
+    $$$$$  /  $$$$$$$\ |$$\$$\$$ $$ |$$$$$$$$ |$$$$$$$  |
+    $$  $$<   $$  __$$\ $$ \$$$  $$ |$$  __$$ |$$  ____/ 
+    $$ |\$$\  $$ |  $$ |$$ |\$  /$$ |$$ |  $$ |$$ |      
+    $$ | \$$\ $$$$$$$  |$$ | \_/ $$ |$$ |  $$ |$$ |      
+    \__|  \__|\_______/ \__|     \__|\__|  \__|\__|      
+{VERSION.rjust(57, ' ')}   
+"""
+
+@click.command()
 @click.argument('device_name')
-@click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events.')
-@click.option('--verbose', '-v', is_flag=True, help='Print detailed logs')
-def main(config_path, device_name, name, verbose):
+@click.version_option(version=WELCOME_MESSAGE, message='%(version)s')
+@click.option('--config', '-c', required=False, help='Mapping configuration path;')
+@click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events;')
+@click.option('--verbose', '-v', is_flag=True, help='Print detailed logs;')
+def main(config, device_name, name, verbose):
     """
-    Create virtual device that will remap keyboard events from device with name DEVICE_NAME using CONFIG_PATH
-    configuration.
+    Create virtual device that will remap keyboard events from device with name DEVICE_NAME.
     """
     log.debug_enabled = verbose
-    mapper.map_device(config_path, device_name, name)
+    mapper.map_device(device_name, config, name)
 
 
 main()

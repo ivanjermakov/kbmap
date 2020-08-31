@@ -1,8 +1,8 @@
 import importlib
 import importlib.util
+from os import path
 from typing import List
 
-import click
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent
 
@@ -14,9 +14,11 @@ last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
 layers_keys_pressed: List[List[int]] = []
 
+DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
+
 
 def load_config(path):
-    debug(f'loading config with path "{path}"')
+    debug(f'loading config from "{path}"')
     spec = importlib.util.spec_from_file_location('config', path)
     config = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(config)
@@ -39,16 +41,15 @@ def init_mapper(config):
         layers_keys_pressed[i] = [False for _ in range(len(config.keymaps[i]))]
 
 
-def map_device(config_path, kb_name, ui_name='kbmap'):
+def map_device(kb_name, config_path, ui_name='kbmap'):
     """
-    Create virtual device with ui_name that will remap keyboard events from device with name device_name using
-    config_pth configuration.
+    Create virtual device with ui_name that will remap keyboard events from device with name device_name.
     :param config_path: path to configuration file
     :param kb_name: source device name. This device will be grabbed
     :param ui_name: optional uinput device that will be created to write mapped events
     """
 
-    config = load_config(config_path)
+    config = load_config(config_path if config_path else DEFAULT_CONFIG_PATH)
     init_mapper(config)
 
     kb = keyboard.get_device_by_name(kb_name)
