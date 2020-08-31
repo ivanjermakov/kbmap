@@ -27,15 +27,17 @@ pip install kbmap
 
 ### Usage
 ````shell script
-Usage: kbmap [OPTIONS] CONFIG_PATH DEVICE_NAME
+Usage: kbmap [OPTIONS] DEVICE_NAME
 
-  Create virtual device that will remap keyboard events from device
-  with name DEVICE_NAME using CONFIG_PATH configuration.
+  Create virtual device that will remap keyboard events from device with
+  name DEVICE_NAME.
 
 Options:
-  -n, --name TEXT  Name of the virtual device that will write events.
-  -v, --verbose    Print detailed logs
-  --help           Show this message and exit.
+  --version          Show the version and exit.
+  -c, --config TEXT  Mapping configuration path;
+  -n, --name TEXT    Name of the virtual device that will write events;
+  -v, --verbose      Print detailed logs;
+  --help             Show this message and exit.
 ````
 
 ### FAQ
