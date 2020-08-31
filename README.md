@@ -2,6 +2,8 @@
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap)](https://github.com/ivanjermakov/kbmap/actions)
 
+[![codecov](https://codecov.io/gh/ivanjermakov/kbmap/branch/master/graph/badge.svg)](https://codecov.io/gh/ivanjermakov/kbmap)
+
 # KBMAP
 Linux keyboard mapping utility
 
