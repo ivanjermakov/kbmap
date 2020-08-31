@@ -1,7 +1,6 @@
 ![ASCII art](https://sun9-30.userapi.com/c853628/v853628642/15d5ac/OLBRQhGJb00.jpg)
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap)](https://github.com/ivanjermakov/kbmap/actions)
-
 [![codecov](https://codecov.io/gh/ivanjermakov/kbmap/branch/master/graph/badge.svg)](https://codecov.io/gh/ivanjermakov/kbmap)
 
 # KBMAP
