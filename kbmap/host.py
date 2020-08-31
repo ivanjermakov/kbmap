@@ -32,6 +32,21 @@ def write_release(ui, *codes):
     ui.syn()
 
 
+def release_weak_keys(ui, config):
+    """
+    Release weak keys from all layers
+    Key is weak if it will cause key hold repeat without releasing.
+    """
+    for layer in range(len(config.keymaps)):
+        for pos, is_pressed in enumerate(mapper.layers_keys_pressed[layer]):
+            if is_pressed:
+                keycode = config.keymaps[layer][pos]
+                if keycode != key.KC_TRANSPARENT and key.is_weak(keycode):
+                    debug(f'key {keycode} released')
+                    write_release(ui, keycode)
+                    mapper.layers_keys_pressed[layer][pos] = False
+
+
 def release_layer_keys(ui, layer, config):
     debug(f'releasing layer [{layer}] keys')
     for pos, is_pressed in enumerate(mapper.layers_keys_pressed[layer]):

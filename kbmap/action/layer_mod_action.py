@@ -20,8 +20,6 @@ class LayerModAction:
 
     def handle(self, ui, e, config, *args):
         debug('-- handling layer mod action --')
-        for m in self.modifiers:
-            host.write_code(ui, m, e.value)
         if e.value == KeyEvent.key_down:
             mapper.enable_layer(self.layer, self, config)
         else:

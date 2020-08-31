@@ -1,0 +1,32 @@
+name: kbmap
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+#     only for CI environment
+#     use issue #8 solution instead
+      - name: 'open uinput for writing'
+        run: sudo chmod 777 /dev/uinput
+
+      - name: install
+        run: pip install .
+
+      - name: test
+        run: python -m unittest -v
+

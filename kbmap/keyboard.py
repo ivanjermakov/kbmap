@@ -1,6 +1,7 @@
 import atexit
 
 from evdev import *
+from kbmap.log import debug
 
 
 def get_device_by_name(device_name):
@@ -34,5 +35,11 @@ def listen_key_events(keyboard, event_handler, stoppable=True, stop_callback=Non
 
 
 def grab(keyboard):
-    atexit.register(keyboard.ungrab)
+    debug(f'grabbing keyboard {keyboard}')
+    atexit.register(ungrab, keyboard)
     keyboard.grab()
+
+
+def ungrab(keyboard):
+    debug(f'ungrabbing keyboard {keyboard}')
+    keyboard.ungrab()
