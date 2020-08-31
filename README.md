@@ -1,6 +1,6 @@
 <img src="https://sun9-30.userapi.com/c853628/v853628642/15d5ac/OLBRQhGJb00.jpg">
 
-<h2 align="center">KBMAP</h3>
+<h3 align="center">KBMAP</h3>
 
 <p align="center">
     Linux keyboard mapping utility
