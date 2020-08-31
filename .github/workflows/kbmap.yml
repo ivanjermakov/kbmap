@@ -19,8 +19,8 @@ jobs:
         with:
           python-version: '3.x'
 
-#     only for CI environment
-#     use issue #8 solution instead
+      # only for CI environment
+      # use issue #8 solution instead
       - name: 'open uinput for writing'
         run: sudo chmod 777 /dev/uinput
 
@@ -29,4 +29,18 @@ jobs:
 
       - name: test
         run: python -m unittest -v
+
+      - name: install coverage
+        run: pip install coverage
+
+      - name: code coverage
+        run: coverage run -m unittest
+
+      - name: install codecov
+        run: pip install codecov
+
+      - name: upload coverage to codecov
+        run: codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
