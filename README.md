@@ -1,7 +1,9 @@
 <img src="https://sun9-30.userapi.com/c853628/v853628642/15d5ac/OLBRQhGJb00.jpg">
 
+<p align="center">
 <a align="center" href="https://github.com/ivanjermakov/kbmap/actions"><img src="https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap"></a>
 <a align="center" href="https://codecov.io/gh/ivanjermakov/kbmap"><img src="https://codecov.io/gh/ivanjermakov/kbmap/branch/master/graph/badge.svg"></a>
+</p>
 
 # KBMAP
 Linux keyboard mapping utility
