@@ -22,9 +22,9 @@ WELCOME_MESSAGE = f"""\
 @click.command()
 @click.argument('device_name')
 @click.version_option(version=WELCOME_MESSAGE, message='%(version)s')
-@click.option('--config', '-c', required=False, help='Mapping configuration path;')
-@click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events;')
-@click.option('--verbose', '-v', is_flag=True, help='Print detailed logs;')
+@click.option('--config', '-c', required=False, help='Mapping configuration path.')
+@click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events.')
+@click.option('--verbose', '-v', is_flag=True, help='Print detailed logs.')
 def main(config, device_name, name, verbose):
     """
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME.
