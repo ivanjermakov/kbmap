@@ -1,5 +1,7 @@
 ![ASCII art](https://sun9-30.userapi.com/c853628/v853628642/15d5ac/OLBRQhGJb00.jpg)
 
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap)](https://github.com/ivanjermakov/kbmap/actions)
+
 # KBMAP
 Linux keyboard mapping utility
 
