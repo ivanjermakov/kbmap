@@ -34,9 +34,9 @@ Usage: kbmap [OPTIONS] DEVICE_NAME
 
 Options:
   --version          Show the version and exit.
-  -c, --config TEXT  Mapping configuration path;
-  -n, --name TEXT    Name of the virtual device that will write events;
-  -v, --verbose      Print detailed logs;
+  -c, --config TEXT  Mapping configuration path.
+  -n, --name TEXT    Name of the virtual device that will write events.
+  -v, --verbose      Print detailed logs.
   --help             Show this message and exit.
 ````
 
