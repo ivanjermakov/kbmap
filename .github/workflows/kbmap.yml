@@ -20,7 +20,7 @@ jobs:
           python-version: '3.x'
 
       - name: install
-        run: pip install .
+        run: sudo pip install .
 
       - name: test
         run: sudo python -m unittest discover test -v
