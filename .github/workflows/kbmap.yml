@@ -21,12 +21,12 @@ jobs:
 
 #     only for CI environment
 #     use issue #8 solution instead
-      - name: open /dev/uinput
+      - name: 'open /dev/uinput'
         - run: sudo chmod 777 /dev/uinput
 
       - name: install
         run: pip install .
 
       - name: test
-        run: python -m unittest discover test -v
+        run: python -m unittest -v
 
