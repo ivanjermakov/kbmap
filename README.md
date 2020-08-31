@@ -14,12 +14,12 @@ KBMAP is heavily inspired by [QMK](https://github.com/qmk/qmk_firmware/) - highl
 
 ### Installing
 ````shell script
-git clone https://github.com/ivanjermakov/kbmap.git
+pip install kbmap
 ````
 
 ### Usage
 ````shell script
-Usage: kbmap.py [OPTIONS] CONFIG_PATH DEVICE_NAME
+Usage: kbmap [OPTIONS] CONFIG_PATH DEVICE_NAME
 
   Create virtual device that will remap keyboard events from device
   with name DEVICE_NAME using CONFIG_PATH configuration.
@@ -29,9 +29,6 @@ Options:
   -v, --verbose    Print detailed logs
   --help           Show this message and exit.
 ````
-
-Note: configuration is applied only for current boot. Probably, you may want to run this at system startup.
-
 
 ### FAQ
 **Q: How it works?**\
