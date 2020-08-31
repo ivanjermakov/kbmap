@@ -1,12 +1,17 @@
 <img src="https://sun9-30.userapi.com/c853628/v853628642/15d5ac/OLBRQhGJb00.jpg">
 
-<p align="center">
-<a align="center" href="https://github.com/ivanjermakov/kbmap/actions"><img src="https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap"></a>
-<a align="center" href="https://codecov.io/gh/ivanjermakov/kbmap"><img src="https://codecov.io/gh/ivanjermakov/kbmap/branch/master/graph/badge.svg"></a>
-</p>
+<h2 align="center">KBMAP</h3>
 
-# KBMAP
-Linux keyboard mapping utility
+<p align="center">
+    Linux keyboard mapping utility
+    <br>
+    <a href="https://github.com/ivanjermakov/kbmap/actions">
+        <img src="https://img.shields.io/github/workflow/status/ivanjermakov/kbmap/kbmap">
+    </a>
+    <a href="https://codecov.io/gh/ivanjermakov/kbmap">
+        <img src="https://codecov.io/gh/ivanjermakov/kbmap/branch/master/graph/badge.svg">
+    </a>
+</p>
 
 ### About
 Mapping physical keyboard keys under Linux system is tricky. Since there is multiple places where you can interrupt and handle keystroke, there is a ton of solutions for different levels. KBMAP focuses on handling keystroke straight from the physical device, before [converting keycode to the keysym](https://wiki.archlinux.org/index.php/Keyboard_input) (it's a place, where windowing system applies keyboard layouts and locales).
