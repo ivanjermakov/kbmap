@@ -10,9 +10,11 @@ from kbmap import keyboard, key, host
 from kbmap.layer import Layer
 from kbmap.log import debug, log
 
+kbmap_enabled = True
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
 layers_keys_pressed: List[List[int]] = []
+from kbmap.action.action_type import ActionType
 
 DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
 
@@ -27,6 +29,9 @@ def load_config(path):
 
 
 def init_mapper(config):
+    global kbmap_enabled
+    kbmap_enabled = config.kbmap_default_enabled
+
     global last_press_timestamps
     last_press_timestamps = [None for _ in range(len(config.physical_layout))]
 
@@ -66,26 +71,35 @@ def map_device(kb_name, config_path, ui_name='kbmap'):
 
 
 def handle_event(e, ui, config):
-    global layers_keys_pressed
-
     debug(f'-------- handling {e} --------')
+
     pos = map_key_to_pos(e.code, config)
     if pos is None:
         return
 
     debug(f'key is {ecodes.KEY[e.code]} ({e.code}) at {pos}')
 
-    key, layer_index = find_key(pos, config)
-    layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
+    if handle_kbmap_toggle(ui, e, pos, config):
+        return
 
-    if hasattr(key, 'type'):
-        debug(f'key is mapped to action of type {key.type} at {pos}')
-        key.handle(ui, e, config, pos)
-    else:
-        debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
-        write_key(ui, key, e, layer_index, config)
+    if not kbmap_enabled:
+        write_key(ui, e.code, e, 0, config)
+        return
 
-    update_timestamps(pos, e)
+    try:
+        key, layer_index = find_key(pos, config)
+
+        if hasattr(key, 'type') and hasattr(key, 'handle'):
+            debug(f'key is mapped to action of type {key.type} at {pos}')
+            key.handle(ui, e, config, pos)
+        else:
+            debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
+            write_key(ui, key, e, layer_index, config)
+
+        layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
+        update_timestamps(pos, e)
+    except LookupError:
+        log(f'no mapping found for key {ecodes.KEY[e.code]} at {pos}')
 
 
 def get_key_name(key):
@@ -125,6 +139,7 @@ def find_key(pos, config):
         layer_key = layer[pos]
         if active_layers[layer_index] and layer_key != key.KC_TRANSPARENT:
             return layer_key, layer_index
+    raise LookupError('no key found')
 
 
 def write_key(ui, key, e, layer, config):
@@ -145,3 +160,15 @@ def disable_layer(ui, layer, config):
     global active_layers
     active_layers[layer] = None
     host.release_weak_keys(ui, config)
+
+
+def handle_kbmap_toggle(ui, e, pos, config):
+    try:
+        key, layer_index = find_key(pos, config)
+
+        if hasattr(key, 'type') and key.type == ActionType.KbmapToggleAction:
+            key.handle(ui, e, config, pos)
+            return True
+    except LookupError:
+        pass
+    return False
