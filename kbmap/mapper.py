@@ -1,12 +1,13 @@
 import importlib
 import importlib.util
 from os import path
-from typing import List
+from typing import List, Dict
 
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent
 
 from kbmap import keyboard, key, host
+from kbmap.action.action_type import ActionType
 from kbmap.layer import Layer
 from kbmap.log import debug, log
 
@@ -14,7 +15,7 @@ kbmap_enabled = True
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
 layers_keys_pressed: List[List[int]] = []
-from kbmap.action.action_type import ActionType
+active_tap_actions: Dict[int, object] = {}
 
 DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
 
@@ -97,6 +98,7 @@ def handle_event(e, ui, config):
             write_key(ui, key, e, layer_index, config)
 
         layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
+        update_active_tap_actions(layer_index, e)
         update_timestamps(pos, e)
     except LookupError:
         log(f'no mapping found for key {ecodes.KEY[e.code]} at {pos}')
@@ -116,14 +118,6 @@ def map_key_to_pos(code, config):
         log(f'no key {ecodes.KEY[code]} in physical config')
 
 
-def update_timestamps(pos, e):
-    global last_press_timestamps
-
-    new_value = e.timestamp() if e.value == KeyEvent.key_down else None
-    last_press_timestamps[pos] = new_value
-    debug(f'updated timestamp at [{pos}] to {new_value}')
-
-
 def find_key(pos, config):
     """
     Find which key to use regarding active layers and key position.
@@ -140,6 +134,25 @@ def find_key(pos, config):
         if active_layers[layer_index] and layer_key != key.KC_TRANSPARENT:
             return layer_key, layer_index
     raise LookupError('no key found')
+
+
+def update_timestamps(pos, e):
+    global last_press_timestamps
+
+    new_value = e.timestamp() if e.value == KeyEvent.key_down else None
+    last_press_timestamps[pos] = new_value
+    debug(f'updated timestamp at [{pos}] to {new_value}')
+
+
+def update_active_tap_actions(layer, e):
+    for pos, action in list(active_tap_actions.items()):
+        if not hasattr(action, 'layer') or action.layer == layer:
+            active_tap_actions.pop(pos)
+            if e.value == KeyEvent.key_down:
+                action.used = True
+            else:
+                # pass
+                host.write_release(ui, action.key)
 
 
 def write_key(ui, key, e, layer, config):
