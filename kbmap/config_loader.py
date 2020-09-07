@@ -1,10 +1,10 @@
 import importlib
 import importlib.util
-from os import path
+from os.path import expanduser
 
 from kbmap.log import *
 
-DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
+DEFAULT_CONFIG_PATH = expanduser('~/.config/kbmap/config.py')
 
 
 def load_config(path):
