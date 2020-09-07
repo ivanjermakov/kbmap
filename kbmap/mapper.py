@@ -77,19 +77,19 @@ def handle_event(e, ui, config):
 
     try:
         key, layer_index = find_key(pos, config)
-    except LookupError as err:
+
+        if hasattr(key, 'type') and hasattr(key, 'handle'):
+            debug(f'key is mapped to action of type {key.type} at {pos}')
+            key.handle(ui, e, config, pos)
+        else:
+            debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
+            write_key(ui, key, e, layer_index, config)
+
+        layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
+        update_active_tap_actions(pos)
+        update_timestamps(pos, e)
+    except LookupError:
         log(f'no mapping found for key {ecodes.KEY[e.code]} at {pos}')
-
-    if hasattr(key, 'type') and hasattr(key, 'handle'):
-        debug(f'key is mapped to action of type {key.type} at {pos}')
-        key.handle(ui, e, config, pos)
-    else:
-        debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
-        write_key(ui, key, e, layer_index, config)
-
-    layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
-    update_active_tap_actions(pos)
-    update_timestamps(pos, e)
 
 
 def get_key_name(key):
@@ -125,7 +125,6 @@ def find_key(pos, config):
     :return key or action
     """
     global active_layers
-    debug(f'active layers: {active_layers}')
     for layer_index, layer in reversed(list(enumerate(config.keymaps))):
         layer_key = layer[pos]
         if active_layers[layer_index] and layer_key != key.KC_TRANSPARENT:
@@ -166,6 +165,6 @@ def handle_kbmap_toggle(ui, e, pos, config):
 
 
 def update_active_tap_actions(pos):
-    for action_pos, action in list(active_tap_actions.items()):
+    for action_pos, action in active_tap_actions.items():
         if action_pos != pos:
-            active_tap_actions.pop(action_pos).used = True
+            action.used = True
