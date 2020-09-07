@@ -20,7 +20,6 @@ class LayerTapActionTest(ActionTest):
             [(KC_A, True), (KC_A, False), (KC_B, True), (KC_B, False)]
         )
 
-    @skip('#28')
     def test_layer_tap_slip(self):
         self.assert_mapping(
             create_config(
@@ -34,7 +33,6 @@ class LayerTapActionTest(ActionTest):
             [(KC_D, True), (KC_D, False)]
         )
 
-    @skip('#28')
     def test_layer_tap_hold(self):
         self.assert_mapping(
             create_config(
