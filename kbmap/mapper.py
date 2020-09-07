@@ -1,31 +1,20 @@
-import importlib
-import importlib.util
-from os import path
-from typing import List
+from typing import List, Dict
 
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent
 
+import kbmap.config as c
 from kbmap import keyboard, key, host
+from kbmap.action.action_type import ActionType
+from kbmap.action.mod_tap_action import ModTapAction
 from kbmap.layer import Layer
-from kbmap.log import debug, log
+from kbmap.log import *
 
 kbmap_enabled = True
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
 layers_keys_pressed: List[List[int]] = []
-from kbmap.action.action_type import ActionType
-
-DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
-
-
-def load_config(path):
-    debug(f'loading config from "{path}"')
-    spec = importlib.util.spec_from_file_location('config', path)
-    config = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(config)
-    debug(f'config loaded')
-    return config
+active_mod_tap_actions: Dict[int, ModTapAction] = {}
 
 
 def init_mapper(config):
@@ -54,7 +43,7 @@ def map_device(kb_name, config_path, ui_name='kbmap'):
     :param ui_name: optional uinput device that will be created to write mapped events
     """
 
-    config = load_config(config_path if config_path else DEFAULT_CONFIG_PATH)
+    config = c.load_config(config_path)
     init_mapper(config)
 
     kb = keyboard.get_device_by_name(kb_name)
@@ -88,18 +77,19 @@ def handle_event(e, ui, config):
 
     try:
         key, layer_index = find_key(pos, config)
-
-        if hasattr(key, 'type') and hasattr(key, 'handle'):
-            debug(f'key is mapped to action of type {key.type} at {pos}')
-            key.handle(ui, e, config, pos)
-        else:
-            debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
-            write_key(ui, key, e, layer_index, config)
-
-        layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
-        update_timestamps(pos, e)
-    except LookupError:
+    except LookupError as err:
         log(f'no mapping found for key {ecodes.KEY[e.code]} at {pos}')
+
+    if hasattr(key, 'type') and hasattr(key, 'handle'):
+        debug(f'key is mapped to action of type {key.type} at {pos}')
+        key.handle(ui, e, config, pos)
+    else:
+        debug(f'key is mapped to key: {get_key_name(key)} ({key}) at {pos}')
+        write_key(ui, key, e, layer_index, config)
+
+    layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
+    update_active_mod_tap_actions(pos)
+    update_timestamps(pos, e)
 
 
 def get_key_name(key):
@@ -135,6 +125,7 @@ def find_key(pos, config):
     :return key or action
     """
     global active_layers
+    debug(f'active layers: {active_layers}')
     for layer_index, layer in reversed(list(enumerate(config.keymaps))):
         layer_key = layer[pos]
         if active_layers[layer_index] and layer_key != key.KC_TRANSPARENT:
@@ -172,3 +163,9 @@ def handle_kbmap_toggle(ui, e, pos, config):
     except LookupError:
         pass
     return False
+
+
+def update_active_mod_tap_actions(pos):
+    for action_pos, action in list(active_mod_tap_actions.items()):
+        if action_pos != pos:
+            active_mod_tap_actions.pop(action_pos).used = True
