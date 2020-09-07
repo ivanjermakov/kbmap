@@ -3,7 +3,7 @@ from typing import List, Dict
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent
 
-import kbmap.config as c
+import kbmap.config_loader as c
 from kbmap import keyboard, key, host
 from kbmap.action.action_type import ActionType
 from kbmap.action.mod_tap_action import ModTapAction

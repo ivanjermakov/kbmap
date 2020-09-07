@@ -2,10 +2,13 @@ import importlib
 import importlib.util
 from os import path
 
+from kbmap.log import *
+
 DEFAULT_CONFIG_PATH = path.expanduser('~/.config/kbmap/config.py')
 
 
-def load_config(path=DEFAULT_CONFIG_PATH):
+def load_config(path):
+    path = path if path else DEFAULT_CONFIG_PATH
     debug(f'loading config from "{path}"')
     spec = importlib.util.spec_from_file_location('config', path)
     config = importlib.util.module_from_spec(spec)
