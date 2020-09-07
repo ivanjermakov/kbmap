@@ -8,3 +8,4 @@ class ActionType(Enum):
     LayerModAction = 4
     LayerToggleAction = 5
     LayerTapAction = 6
+    KbmapToggleAction = 7

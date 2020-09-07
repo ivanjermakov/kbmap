@@ -23,3 +23,5 @@ keymaps = [
 ]
 
 tapping_term = 200
+
+kbmap_default_enabled = True

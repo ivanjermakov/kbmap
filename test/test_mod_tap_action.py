@@ -1,5 +1,3 @@
-from unittest import skip
-
 from kbmap.key import *
 from test.test_action import ActionTest
 from test.util import *
@@ -19,7 +17,6 @@ class ModTapActionTest(ActionTest):
             [(KC_LSFT, True), (KC_LSFT, False), (KC_A, True), (KC_A, False), (KC_B, True), (KC_B, False)]
         )
 
-    @skip('#28')
     def test_mod_tap_action_tap_slip(self):
         self.assert_mapping(
             create_config(
@@ -32,7 +29,6 @@ class ModTapActionTest(ActionTest):
             [(KC_LSFT, True), (KC_B, True), (KC_B, False), (KC_LSFT, False)]
         )
 
-    @skip('#28')
     def test_mod_tap_action_hold(self):
         self.assert_mapping(
             create_config(

@@ -19,15 +19,17 @@ def create_ui(on_write):
     return ui
 
 
-def create_config(physical_layout, keymaps):
+def create_config(physical_layout, keymaps, tapping_term = 200, kbmap_default_enabled = True):
     config = make_dataclass('config', [
         ('physical_layout', object),
         ('keymaps', object),
-        ('tapping_term', int)
+        ('tapping_term', int),
+        ('kbmap_default_enabled', bool)
     ])
     config.physical_layout = physical_layout
     config.keymaps = keymaps
-    config.tapping_term = 200
+    config.tapping_term = tapping_term
+    config.kbmap_default_enabled = kbmap_default_enabled
     return config
 
 
