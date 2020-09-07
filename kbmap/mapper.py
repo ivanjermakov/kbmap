@@ -14,7 +14,7 @@ kbmap_enabled = True
 last_press_timestamps: List[float] = []
 active_layers: List[Layer] = []
 layers_keys_pressed: List[List[int]] = []
-active_mod_tap_actions: Dict[int, ModTapAction] = {}
+active_tap_actions: Dict[int, ModTapAction] = {}
 
 
 def init_mapper(config):
@@ -88,7 +88,7 @@ def handle_event(e, ui, config):
         write_key(ui, key, e, layer_index, config)
 
     layers_keys_pressed[layer_index][pos] = e.value == KeyEvent.key_down
-    update_active_mod_tap_actions(pos)
+    update_active_tap_actions(pos)
     update_timestamps(pos, e)
 
 
@@ -165,7 +165,7 @@ def handle_kbmap_toggle(ui, e, pos, config):
     return False
 
 
-def update_active_mod_tap_actions(pos):
-    for action_pos, action in list(active_mod_tap_actions.items()):
+def update_active_tap_actions(pos):
+    for action_pos, action in list(active_tap_actions.items()):
         if action_pos != pos:
-            active_mod_tap_actions.pop(action_pos).used = True
+            active_tap_actions.pop(action_pos).used = True
