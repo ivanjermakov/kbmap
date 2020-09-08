@@ -1,3 +1,7 @@
+"""
+Used for handling keyboard events and delegating mapping logic.
+"""
+
 from typing import List, Dict
 
 from evdev import UInput, ecodes

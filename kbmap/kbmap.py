@@ -1,9 +1,16 @@
+"""
+Kbmap CLI entry.
+"""
+
 import click
 import pkg_resources
 
 from kbmap import log, mapper
 
 VERSION = f'v{pkg_resources.require("kbmap")[0].version}'
+"""
+Kbmap version in format "v{version}"
+"""
 
 WELCOME_MESSAGE = f"""\
 
@@ -18,6 +25,10 @@ WELCOME_MESSAGE = f"""\
     \__|  \__|\_______/ \__|     \__|\__|  \__|\__|      
 {VERSION.rjust(57, ' ')}   
 """
+"""
+Kbmap welcome message
+"""
+
 
 @click.command()
 @click.argument('device_name')

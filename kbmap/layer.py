@@ -1,7 +1,15 @@
+"""
+Layer type
+"""
+
 from typing import List
 
 
 class Layer:
+    """
+    Merges layer as list of keycodes and activator of it.
+    """
+
     keymap: List[int]
     activator: object
 
