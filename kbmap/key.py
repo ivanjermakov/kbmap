@@ -6,6 +6,8 @@ to import all of them.
 Full list can be found at kbmap wiki: https://github.com/ivanjermakov/kbmap/wiki/Key-names
 """
 
+from evdev.ecodes import *
+
 from kbmap.action.kbmap_toggle_action import KbmapToggleAction
 from kbmap.action.layer_mod_action import LayerModAction
 from kbmap.action.layer_on_action import LayerOnAction
