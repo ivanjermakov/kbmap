@@ -13,9 +13,9 @@ class Layer:
     keymap: List[int]
     activator: object
 
-    def __init__(self, keymap, activator):
+    def __init__(self, keymap: List[int], activator: object) -> None:
         self.keymap = keymap
         self.activator = activator
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'(keymap: {self.keymap}, activator: {self.activator})'

@@ -2,13 +2,14 @@
 Used for physical key device operations.
 """
 import atexit
+from typing import *
 
 from evdev import *
 
 from kbmap.log import debug
 
 
-def get_device_by_name(device_name):
+def get_device_by_name(device_name: str) -> InputDevice:
     """
     Find a device with a specified name.
     """
@@ -19,14 +20,15 @@ def get_device_by_name(device_name):
         raise type(e)(f'no device with name "{device_name}"')
 
 
-def is_ctrl_z(e, keyboard):
+def is_ctrl_z(e: InputEvent, keyboard: InputDevice) -> bool:
     """
     Check whether event invokes ^z or not.
     """
     return e.code == ecodes.KEY_Z and ecodes.KEY_LEFTCTRL in keyboard.active_keys()
 
 
-def listen_key_events(keyboard, event_handler, stoppable=True, stop_callback=None):
+def listen_key_events(keyboard: InputDevice, event_handler: Callable[[InputEvent], None], stoppable: bool = True,
+                      stop_callback: Callable[[], None] = None) -> None:
     """
     Subscribe for keyboard key events.
     Ignoring KeyEvent.key_hold events.
@@ -49,7 +51,7 @@ def listen_key_events(keyboard, event_handler, stoppable=True, stop_callback=Non
             event_handler(e)
 
 
-def grab(keyboard):
+def grab(keyboard: InputDevice) -> None:
     """
     Grab keyboard to become a sole recipient of keyboard events.
     In case of program exit, keyboard will be ungrabbed.
@@ -59,7 +61,7 @@ def grab(keyboard):
     keyboard.grab()
 
 
-def ungrab(keyboard):
+def ungrab(keyboard: InputDevice) -> None:
     """
     Ungrab the grabbed keyboard.
     """

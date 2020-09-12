@@ -5,10 +5,11 @@ Used for operations on UInput, mainly on injecting events.
 from evdev import *
 
 from kbmap import mapper, key
+from kbmap.config_loader import Config
 from kbmap.log import debug
 
 
-def write(ui, e):
+def write(ui: UInput, e: InputEvent) -> None:
     """
     Inject event into specified UInput.
     """
@@ -16,7 +17,7 @@ def write(ui, e):
     ui.syn()
 
 
-def write_code(ui, code, value):
+def write_code(ui: UInput, code: int, value: int) -> None:
     """
     Inject key event with code and value into specified UInput.
     """
@@ -24,7 +25,7 @@ def write_code(ui, code, value):
     ui.syn()
 
 
-def write_tap(ui, code):
+def write_tap(ui: UInput, code: int) -> None:
     """
     Write press and release.
     """
@@ -33,7 +34,7 @@ def write_tap(ui, code):
     ui.syn()
 
 
-def write_press(ui, *codes):
+def write_press(ui: UInput, *codes: int) -> None:
     """
     Inject specified key codes into UInput with key_down.
     """
@@ -42,7 +43,7 @@ def write_press(ui, *codes):
     ui.syn()
 
 
-def write_release(ui, *codes):
+def write_release(ui: UInput, *codes: int) -> None:
     """
     Inject specified key codes into UInput with key_up.
     """
@@ -51,7 +52,7 @@ def write_release(ui, *codes):
     ui.syn()
 
 
-def release_weak_keys(ui, config):
+def release_weak_keys(ui: UInput, config: Config) -> None:
     """
     Release weak keys from all layers.
     Key is weak if it will cause key hold repeat without releasing.
@@ -66,15 +67,15 @@ def release_weak_keys(ui, config):
                     mapper.layers_keys_pressed[layer][pos] = False
 
 
-def release_layer_keys(ui, layer, config):
+def release_layer_keys(ui: UInput, layer_index: int, config: Config) -> None:
     """
     Release weak keys from specified layer.
     """
-    debug(f'releasing layer [{layer}] keys')
-    for pos, is_pressed in enumerate(mapper.layers_keys_pressed[layer]):
+    debug(f'releasing layer [{layer_index}] keys')
+    for pos, is_pressed in enumerate(mapper.layers_keys_pressed[layer_index]):
         if is_pressed:
-            keycode = config.keymaps[layer][pos]
+            keycode = config.keymaps[layer_index][pos]
             if keycode != key.KC_TRANSPARENT:
                 debug(f'key {keycode} released')
                 write_release(ui, keycode)
-                mapper.layers_keys_pressed[layer][pos] = False
+                mapper.layers_keys_pressed[layer_index][pos] = False

@@ -6,8 +6,6 @@ to import all of them.
 Full list can be found at kbmap wiki: https://github.com/ivanjermakov/kbmap/wiki/Key-names
 """
 
-from evdev.ecodes import *
-
 from kbmap.action.kbmap_toggle_action import KbmapToggleAction
 from kbmap.action.layer_mod_action import LayerModAction
 from kbmap.action.layer_on_action import LayerOnAction
@@ -17,7 +15,7 @@ from kbmap.action.mod_key_action import ModKeyAction
 from kbmap.action.mod_tap_action import ModTapAction
 
 
-def is_weak(key):
+def is_weak(key: object) -> bool:
     """
     Check whether key is weak or not.
     Key is weak if it is a basic key - not an action and not a modifier.
@@ -25,14 +23,14 @@ def is_weak(key):
     return not is_action(key) and not is_mod(key)
 
 
-def is_mod(key):
+def is_mod(key: object) -> bool:
     """
     Check whether key is a modifier key.
     """
     return key in [KC_LCTRL, KC_RCTRL, KC_LSHIFT, KC_RSHIFT, KC_LALT, KC_RALT, KC_LGUI, KC_RGUI]
 
 
-def is_action(key):
+def is_action(key: object) -> bool:
     """
     Check whether key is an action.
     """

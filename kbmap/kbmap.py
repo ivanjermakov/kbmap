@@ -7,12 +7,12 @@ import pkg_resources
 
 from kbmap import log, mapper
 
-VERSION = f'v{pkg_resources.require("kbmap")[0].version}'
+VERSION: str = f'v{pkg_resources.require("kbmap")[0].version}'
 """
 Kbmap version in format "v{version}"
 """
 
-WELCOME_MESSAGE = f"""\
+WELCOME_MESSAGE: str = f"""\
 
 
     $$\   $$\ $$$$$$$\  $$\      $$\  $$$$$$\  $$$$$$$\  
@@ -36,7 +36,7 @@ Kbmap welcome message
 @click.option('--config', '-c', required=False, help='Mapping configuration path.')
 @click.option('--name', '-n', default='kbmap', help='Name of the virtual device that will write events.')
 @click.option('--verbose', '-v', is_flag=True, help='Print detailed logs.')
-def main(config, device_name, name, verbose):
+def main(config: str, device_name: str, name: str, verbose: bool) -> None:
     """
     Create virtual device that will remap keyboard events from device with name DEVICE_NAME.
     """

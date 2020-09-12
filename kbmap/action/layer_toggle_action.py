@@ -1,24 +1,30 @@
-from evdev.events import KeyEvent
+from evdev import UInput
+from evdev.events import InputEvent, KeyEvent
 
 from kbmap import mapper
 from kbmap.action.action_type import ActionType
+from kbmap.config_loader import Config
 from kbmap.log import debug
 
 
 class LayerToggleAction:
+    """
+    Layer toggle action.
+    """
+
     type: ActionType
-    layer: int
+    layer_index: int
 
-    def __init__(self, layer, ):
+    def __init__(self, layer_index: int) -> None:
         self.type = ActionType.LayerToggleAction
-        self.layer = layer
+        self.layer_index = layer_index
 
-    def handle(self, ui, e, config, *args):
+    def handle(self, ui: UInput, e: InputEvent, config: Config, *args) -> None:
         debug('-- handling layer toggle action --')
         if e.value == KeyEvent.key_down:
-            if mapper.active_layers[self.layer]:
-                debug(f'disabling layer [{self.layer}]')
-                mapper.disable_layer(ui, self.layer, config)
+            if mapper.active_layers[self.layer_index]:
+                debug(f'disabling layer [{self.layer_index}]')
+                mapper.disable_layer(ui, self.layer_index, config)
             else:
-                debug(f'enabling layer [{self.layer}]')
-                mapper.enable_layer(self.layer, self, config)
+                debug(f'enabling layer [{self.layer_index}]')
+                mapper.enable_layer(self.layer_index, self, config)

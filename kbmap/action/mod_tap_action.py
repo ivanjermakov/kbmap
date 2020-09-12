@@ -1,28 +1,34 @@
-from typing import Any, Tuple
+from typing import *
 
-from evdev.events import KeyEvent
+from evdev import UInput
+from evdev.events import InputEvent, KeyEvent
 
 from kbmap import mapper, host
 from kbmap.action.action_type import ActionType
+from kbmap.config_loader import Config
 from kbmap.log import debug
 
 
 class ModTapAction:
+    """
+    Mod tap action.
+    """
+
     type: ActionType
-    key: int
-    modifiers: Tuple[Any, ...]
+    code: int
+    modifiers: Tuple[int, ...]
     used: bool
 
-    def __init__(self, key, *modifiers):
+    def __init__(self, code: int, *modifiers) -> None:
         self.type = ActionType.ModTapAction
         self.modifiers = modifiers
-        self.key = key
+        self.code = code
         self.used = False
 
-    def __repr__(self):
-        return f'MT{"u" if self.used else ""}({self.key}, {",".join(map(str, self.modifiers))})'
+    def __repr__(self) -> str:
+        return f'MT{"u" if self.used else ""}({self.code}, {",".join(map(str, self.modifiers))})'
 
-    def handle(self, ui, e, config, pos, *args):
+    def handle(self, ui: UInput, e: InputEvent, config: Config, pos: int, *args) -> None:
         debug('-- handling mod tap action --')
         if e.value == KeyEvent.key_down:
             mapper.active_tap_actions[pos] = self
@@ -42,5 +48,5 @@ class ModTapAction:
             debug(f'action is used: {self.used}')
             if not self.used and since_last_press <= config.tapping_term:
                 debug('writing key press')
-                host.write_tap(ui, self.key)
+                host.write_tap(ui, self.code)
             self.used = False
