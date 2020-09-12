@@ -5,7 +5,7 @@ from evdev.events import InputEvent, KeyEvent
 
 from kbmap import mapper, host
 from kbmap.action.action_type import ActionType
-from kbmap.config_loader import Config
+from kbmap.config import Config
 from kbmap.log import debug
 
 

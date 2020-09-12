@@ -7,9 +7,10 @@ from typing import *
 from evdev import UInput, ecodes
 from evdev.events import KeyEvent, InputEvent
 
+import kbmap.config as c
 from kbmap import keyboard, key, host
 from kbmap.action.action_type import ActionType
-from kbmap.config_loader import Config
+from kbmap.config import Config
 from kbmap.layer import Layer
 from kbmap.log import *
 
@@ -75,7 +76,7 @@ def map_device(kb_name: str, config_path: str, ui_name: str = 'kbmap') -> None:
     :param ui_name: optional UInput device that will be created to write mapped events
     """
 
-    config = config_loader.load_config(config_path)
+    config = c.load_config(config_path)
     init_mapper(config)
 
     kb = keyboard.get_device_by_name(kb_name)

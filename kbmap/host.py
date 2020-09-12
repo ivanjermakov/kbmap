@@ -5,7 +5,7 @@ Used for operations on UInput, mainly on injecting events.
 from evdev import *
 
 from kbmap import mapper, key
-from kbmap.config_loader import Config
+from kbmap.config import Config
 from kbmap.log import debug
 
 
