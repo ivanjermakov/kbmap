@@ -2,9 +2,7 @@
 Used for operations on UInput, mainly on injecting events.
 """
 
-from evdev import UInput
-from evdev import ecodes
-from evdev.ecodes import *
+from evdev import UInput, ecodes
 from evdev.events import InputEvent, KeyEvent
 
 from kbmap import mapper, key
