@@ -1,4 +1,4 @@
-from evdev.events import KeyEvent
+from evdev.events import InputEvent, KeyEvent
 
 from kbmap import mapper
 from kbmap.action.action_type import ActionType
@@ -6,12 +6,17 @@ from kbmap.log import debug
 
 
 class KbmapToggleAction:
+    """
+    Action used to toggle kbmap on and off.
+    When kbmap is off, all mapped physical keys directly written to UInput, bypassing any mapping.
+    """
+
     type: ActionType
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.type = ActionType.KbmapToggleAction
 
-    def handle(self, _, e, *args):
+    def handle(self, _, e: InputEvent, *args) -> None:
         debug('-- handling kbmap toggle action --')
         if e.value == KeyEvent.key_down:
             debug(f'now kbmap is {"enabled" if mapper.kbmap_enabled else "disabled"}')
@@ -19,4 +24,3 @@ class KbmapToggleAction:
             debug(f'toggle kbmap {"enabled" if mapper.kbmap_enabled else "disabled"}')
         else:
             debug('key release, skipping')
-

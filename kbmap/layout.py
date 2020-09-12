@@ -1,3 +1,7 @@
+"""
+Stores commonly used layouts.
+"""
+
 from kbmap.key import *
 
 tkl_transparent = [

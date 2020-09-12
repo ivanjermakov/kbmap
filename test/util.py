@@ -10,7 +10,8 @@ from kbmap import mapper
 
 
 def generate_key_event(code, is_press):
-    return InputEvent(int(time.time()), (time.time() * 1000000) % 1000000, 1, code, KeyEvent.key_down if is_press else KeyEvent.key_up)
+    return InputEvent(int(time.time()), (time.time() * 1000000) % 1000000, 1, code,
+                      KeyEvent.key_down if is_press else KeyEvent.key_up)
 
 
 def create_ui(on_write):
@@ -19,7 +20,7 @@ def create_ui(on_write):
     return ui
 
 
-def create_config(physical_layout, keymaps, tapping_term = 200, kbmap_default_enabled = True):
+def create_config(physical_layout, keymaps, tapping_term=200, kbmap_default_enabled=True):
     config = make_dataclass('config', [
         ('physical_layout', object),
         ('keymaps', object),
