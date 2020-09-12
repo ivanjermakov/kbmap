@@ -19,7 +19,12 @@ class Config:
     tapping_term: int
     kbmap_default_enabled: bool
 
-    def __init__(self, physical_layout, keymaps, tapping_term, kbmap_default_enabled):
+    def __init__(self,
+                 physical_layout: List[int],
+                 keymaps: List[List[int]],
+                 tapping_term: int,
+                 kbmap_default_enabled: bool
+                 ):
         self.physical_layout = physical_layout
         self.keymaps = keymaps
         self.tapping_term = tapping_term
@@ -33,7 +38,7 @@ Will be used if no other path is specified.
 """
 
 
-def from_module(module: object) -> Config:
+def from_module(module: Any) -> Config:
     """
     Construct config from config file.
     """
@@ -52,7 +57,7 @@ def load_config(path=None) -> Config:
     """
     path = path if path else DEFAULT_CONFIG_PATH
     debug(f'loading config from "{path}"')
-    spec = importlib.util.spec_from_file_location('config', path)
+    spec: Any = importlib.util.spec_from_file_location('config', path)
     config = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(config)
     debug(f'config loaded')

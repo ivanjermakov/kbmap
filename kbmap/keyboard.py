@@ -4,7 +4,9 @@ Used for physical key device operations.
 import atexit
 from typing import *
 
-from evdev import *
+from evdev import InputDevice
+from evdev import ecodes, list_devices
+from evdev.events import KeyEvent, InputEvent
 
 from kbmap.log import debug
 

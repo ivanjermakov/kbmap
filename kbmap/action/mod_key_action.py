@@ -14,10 +14,10 @@ class ModKeyAction:
     """
 
     type: ActionType
-    code: int
+    code: Union[int, None]
     modifiers: Tuple[int, ...]
 
-    def __init__(self, code: int, *modifiers) -> None:
+    def __init__(self, code: Union[int, None], *modifiers) -> None:
         self.type = ActionType.ModKeyAction
         self.modifiers = modifiers
         self.code = code

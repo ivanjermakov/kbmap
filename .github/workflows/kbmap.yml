@@ -27,20 +27,22 @@ jobs:
       - name: install
         run: pip install .
 
+      - name: type check
+        run: |
+          pip install mypy
+          mypy --ignore-missing-imports kbmap
+
       - name: test
         run: python -m unittest -v
 
-      - name: install coverage
-        run: pip install coverage
+      - name: measure code coverage
+        run: |
+          pip install coverage
+          coverage run -m unittest
 
-      - name: code coverage
-        run: coverage run -m unittest
-
-      - name: install codecov
-        run: pip install codecov
-
-      - name: upload coverage to codecov
-        run: codecov
+      - name: codecov
+        run: |
+          pip install codecov
+          codecov
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-

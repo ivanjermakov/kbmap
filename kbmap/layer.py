@@ -2,7 +2,7 @@
 Layer type
 """
 
-from typing import List
+from typing import *
 
 
 class Layer:
@@ -11,9 +11,9 @@ class Layer:
     """
 
     keymap: List[int]
-    activator: object
+    activator: Any
 
-    def __init__(self, keymap: List[int], activator: object) -> None:
+    def __init__(self, keymap: List[int], activator: Any) -> None:
         self.keymap = keymap
         self.activator = activator
 

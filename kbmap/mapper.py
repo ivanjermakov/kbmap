@@ -20,13 +20,13 @@ Determines whether mapping is enabled.
 If option is False, physical layout keys written directly into UI.
 """
 
-last_press_timestamps: List[float] = []
+last_press_timestamps: List[Union[float, None]] = []
 """
 Store last keypress (key down) event for each keyboard position.
 Used in tap actions behavior.
 """
 
-active_layers: List[Layer] = []
+active_layers: List[Union[Layer, None]] = []
 """
 List of fixed length, specified by config, equal to the number of layers.
 Active layers store Layer objects, inactive store None.
@@ -38,7 +38,7 @@ layers_keys_pressed: List[List[bool]] = []
 Boolean matrix of currently pressed keys by [layer][position]
 """
 
-active_tap_actions: Dict[int, object] = {}
+active_tap_actions: Dict[int, Any] = {}
 """
 Dictionary of active MT and LT actions, stored as pos -> action.
 Used in tap actions behavior.
@@ -144,7 +144,7 @@ def get_key_name(code: int) -> str:
     return ecodes.KEY.get(code, "UNKNOWN")
 
 
-def map_code_to_pos(code: int, config: Config) -> int:
+def map_code_to_pos(code: int, config: Config) -> Union[int, None]:
     """
     Map key code to position of it on physical layout specified by config
     """
@@ -154,6 +154,7 @@ def map_code_to_pos(code: int, config: Config) -> int:
         return config.physical_layout.index(code)
     except ValueError:
         log(f'no key {ecodes.KEY[code]} in physical config')
+        return None
 
 
 def update_timestamps(pos: int, e: InputEvent) -> None:
@@ -168,7 +169,7 @@ def update_timestamps(pos: int, e: InputEvent) -> None:
     debug(f'updated timestamp at [{pos}] to {new_value}')
 
 
-def find_key(pos: int, config: Config) -> (object, int):
+def find_key(pos: int, config: Config) -> Tuple[Any, int]:
     """
     Find which key to use regarding active layers and key position.
     Picked up first non-KC_TRANS key within active layers.
