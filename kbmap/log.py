@@ -20,3 +20,10 @@ def debug(message: str) -> None:
     """
     if debug_enabled:
         click.echo(message)
+
+
+def error(message: str) -> None:
+    """
+    Log error message to console.
+    """
+    click.echo(click.style(message, fg='red'), err=True)

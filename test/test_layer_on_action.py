@@ -1,4 +1,3 @@
-from kbmap import log
 from kbmap.key import *
 from test.test_action import ActionTest
 from test.util import *

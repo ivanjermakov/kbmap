@@ -2,6 +2,7 @@
 Used for handling keyboard events and delegating mapping logic.
 """
 
+import sys
 from typing import *
 
 from evdev import UInput, ecodes
@@ -73,10 +74,15 @@ def map_device(kb_name: str, config_path: str, ui_name: str = 'kbmap') -> None:
 
     :param kb_name: source device name. This device will be grabbed
     :param config_path: path to configuration file
-    :param ui_name: optional UInput device that will be created to write mapped events
+    :param ui_name: optional UInput device name
     """
 
-    config = c.load_config(config_path)
+    config = c.load(config_path)
+    error_list = c.validate(config)
+    if not error_list.empty():
+        error('\n    - '.join(['invalid config; errors:'] + error_list.errors))
+        sys.exit(1)
+
     init_mapper(config)
 
     kb = keyboard.get_device_by_name(kb_name)

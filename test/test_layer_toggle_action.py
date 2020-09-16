@@ -27,6 +27,7 @@ class LayerToggleAction(ActionTest):
                     [KC_TRNS, KC_D, KC_TRNS]
                 ]
             ),
-            [(KC_A, True), (KC_A, False), (KC_B, True), (KC_B, False), (KC_A, True), (KC_A, False), (KC_B, True), (KC_B, False)],
+            [(KC_A, True), (KC_A, False), (KC_B, True), (KC_B, False), (KC_A, True), (KC_A, False), (KC_B, True),
+             (KC_B, False)],
             [(KC_D, True), (KC_D, False), (KC_B, True), (KC_B, False)]
         )

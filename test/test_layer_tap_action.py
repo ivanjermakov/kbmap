@@ -1,5 +1,3 @@
-from unittest import skip
-
 from kbmap.key import *
 from test.test_action import ActionTest
 from test.util import *
