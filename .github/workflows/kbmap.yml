@@ -21,7 +21,7 @@ jobs:
 
       # only for CI environment
       # use issue #8 solution instead
-      - name: 'open uinput for writing'
+      - name: open uinput for writing
         run: sudo chmod 777 /dev/uinput
 
       - name: install
