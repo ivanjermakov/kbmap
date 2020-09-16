@@ -21,26 +21,26 @@ jobs:
 
       # only for CI environment
       # use issue #8 solution instead
-      - name: open uinput for writing
+      - name: Open uinput for writing
         run: sudo chmod 777 /dev/uinput
 
-      - name: install
+      - name: Install
         run: pip install .
 
-      - name: type check
+      - name: Type check
         run: |
           pip install mypy
           mypy --ignore-missing-imports kbmap
 
-      - name: test
+      - name: Test
         run: python -m unittest -v
 
-      - name: measure code coverage
+      - name: Measure code coverage
         run: |
           pip install coverage
           coverage run -m unittest
 
-      - name: codecov
+      - name: Codecov
         run: |
           pip install codecov
           codecov
