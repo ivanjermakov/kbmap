@@ -13,6 +13,9 @@
     </a>
 </p>
 
+# NOTICE
+**This project is discontinued, I recommend using [KMonad](https://github.com/kmonad/kmonad) as it's capable of everything *kbmap* planned to support**
+
 ### About
 Mapping physical keyboard keys under Linux system is tricky. Since there is multiple places where you can interrupt and handle keystroke, there is a ton of solutions for different levels. KBMAP focuses on handling keystroke straight from the physical device, before [converting keycode to the keysym](https://wiki.archlinux.org/index.php/Keyboard_input) (it's a place, where windowing system applies keyboard layouts and locales).
 
